@@ -8,7 +8,7 @@
 /**/Makefile
 /**/iterations.txt
 
-*/generated_code/
+/**/**/generated_code/
 
 DerivedData
 
