@@ -1,0 +1,48 @@
+/**/generated_code/lib/
+/**/generated_code/bin/
+/**/generated_code/data/*_result.txt
+/**/OCP_tmp
+/**/generated_code/build/
+/**/generated_code/Makefile/
+/**/*_run.m
+/**/Makefile
+/**/iterations.txt
+
+*/generated_code/
+
+DerivedData
+
+.bundle
+.vscode
+dumps
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+*.sav
+*.bak
