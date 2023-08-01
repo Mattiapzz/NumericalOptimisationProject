@@ -42,10 +42,20 @@ classdef Dubber < handle
       this.compute_L5();
       this.compute_L6(Lc);
       this.compute_L7();
+      this.L = this.L1 + this.L2 + this.L3 + this.L4 + this.L5 + this.L6 + this.L7;
     end
     %
-    function optimize_L2L4L6(this)
-      %
+    function optimize_L2L4L6(this,La,Lb,Lc)
+      Ls0 = [La,Lb,Lc];
+      fun = @(x)this.cost(x(1),x(2),x(3)) ;
+      Ls = fminsearch(fun,Ls0);
+      this.compute_L(Ls(1),Ls(2),Ls(3));
+    end
+    %
+    function C = cost(this,La,Lb,Lc)
+      this.compute_L(La,Lb,Lc);
+      VEC = [1.0,1.0,1.0].*(this.PT(1:3) - this.Pm7(1:3));
+      C = VEC*VEC';
     end
     %
     function L1 = compute_L1(this)
