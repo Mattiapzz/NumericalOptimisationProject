@@ -6,7 +6,7 @@
 <Hide name="Group Range"/>
 <Hide name="Table Borders"/>
 </View-Properties>
-<MapleNet-Properties prettyprint="3" warnlevel="3" compactdisplay="false" preplot="" helpbrowser="standard" displayprecision="-1" echo="1" scientificx="true" unitattributes="&quot;fontweight&quot; = &quot;bold&quot;" imaginaryunit="I" longdelim="true" elisiontermsthreshold="10000" elisiondigitsafter="100" elisiondigitsbefore="100" plotdevice="inline" errorbreak="1" plotoptions="" plotdriver="opengl" quiet="false" elisiontermsbefore="100" elisiontermsafter="100" historytimestamp="false" screenwidth="79" indentamount="4" plotoutput="terminal" screenpixelheight="1080" rtablesize="[10, 10]" useclientjvm="true" format="document" labelwidth="20" postplot="" typesetting="extended" ansi="false" ansicolor="[]" elisiondigitsthreshold="10000" showassumed="1" ansilprint="false" trailingsemicolon="true" errorcursor="false" labelling="true" screenheight="25" prompt="&gt; " verboseproc="1" latexwidth="8.0" ShowLabels="true"/>
+<MapleNet-Properties prettyprint="3" warnlevel="3" compactdisplay="false" preplot="" helpbrowser="standard" displayprecision="5" echo="1" scientificx="true" unitattributes="&quot;fontweight&quot; = &quot;bold&quot;" imaginaryunit="I" longdelim="true" elisiontermsthreshold="10000" elisiondigitsafter="100" elisiondigitsbefore="100" plotdevice="inline" errorbreak="1" plotoptions="" plotdriver="opengl" quiet="false" elisiontermsbefore="100" elisiontermsafter="100" historytimestamp="false" screenwidth="79" indentamount="4" plotoutput="terminal" screenpixelheight="1080" rtablesize="65" useclientjvm="true" format="document" labelwidth="20" postplot="" typesetting="extended" ansi="false" ansicolor="[]" elisiondigitsthreshold="10000" showassumed="1" ansilprint="false" trailingsemicolon="true" errorcursor="false" labelling="true" screenheight="25" prompt="&gt; " verboseproc="1" latexwidth="8.0" ShowLabels="true"/>
 <Styles>
 <Font name="Heading 1" background="[255,255,255]" bold="true" executable="false" family="Century Gothic" foreground="[195,69,11]" italic="false" opaque="false" readonly="false" size="20" subscript="false" superscript="false" underline="false" placeholder="false"/>
 <Font name="Heading 4" background="[255,255,255]" bold="true" executable="false" family="Century Gothic" foreground="[235,132,3]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" placeholder="false"/>
@@ -190,14 +190,13 @@ project_dir  := &quot;../generated_code/&quot;;</Text-field>
   diff(x(zeta),zeta)     = V * cos(theta(zeta)) * T(zeta),
   diff(y(zeta),zeta)     = V * sin(theta(zeta)) * T(zeta),
   diff(theta(zeta),zeta) = V * kappa(zeta)      * T(zeta),
-  diff(kappa(zeta),zeta) = V * J__max * J(zeta) * T(zeta),
-  diff(J(zeta),zeta)     = vJ__max * vJ(zeta)   * T(zeta),
-  diff(T(zeta),zeta)     = 0
+  diff(kappa(zeta),zeta) = V * J__max * J__n(zeta) * T(zeta),
+  diff(T(zeta),zeta) = 0
 ]:
 
 &lt;%&gt;;
-xvars := map([x, y, theta, kappa, J, T],(zeta));
-uvars := map([vJ],(zeta));
+xvars := map([x, y, theta, kappa, T],(zeta));
+uvars := map([J__n],(zeta));
 </Text-field>
 </Input>
 </Group>
@@ -233,8 +232,8 @@ uvars := map([vJ],(zeta));
 <Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">ICs := [
   x     = x__0,
   y     = y__0,
-  theta = theta__0,
-  kappa = kappa__0
+  theta = theta__0__c,
+  kappa = kappa__0__c
 ]; </Text-field>
 </Input>
 </Group>
@@ -242,8 +241,8 @@ uvars := map([vJ],(zeta));
 <Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">FCs := [ 
   x     = x__T,
   y     = y__T,
-  theta = theta__T,
-  kappa = kappa__T
+  theta = theta__T__c,
+  kappa = kappa__T__c
 ];</Text-field>
 </Input>
 </Group>
@@ -257,7 +256,7 @@ uvars := map([vJ],(zeta));
 </Group>
 <Group hide-input="false" labelreference="L277963" drawlabel="true" applyint="true" applyrational="true" applyexponent="false">
 <Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">setTarget(
-  lagrange = w__vJ*vJ(zeta)^2*penaltyScale ,
+  lagrange = 0.0*penaltyScale ,
   mayer    = T(zeta_f)
 );</Text-field>
 </Input>
@@ -268,27 +267,13 @@ uvars := map([vJ],(zeta));
 </Group>
 <Group hide-input="false" labelreference="L277968" drawlabel="true" applyint="true" applyrational="true" applyexponent="false">
 <Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">addControlBound(
-  vJ(zeta),
+  J__n(zeta),
   controlType = &quot;U_COS_LOGARITHMIC&quot;,
   min         = -1, 
   max         =  1,
   epsilon     = eps_c0, 
   tolerance   = tol_c0,
   scale       = penaltyScale
-);</Text-field>
-</Input>
-</Group>
-<Group labelreference="L349979" drawlabel="true" applyint="true" applyrational="true" applyexponent="false">
-<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">addBilateralConstraint(
-  J(zeta)/J__max,
-  &quot;max_jerk&quot;,
-  min = -1,
-  max = +1,
-  active = true,
-  subtype   = &quot;PENALTY_PIECEWISE&quot;,
-  epsilon   = eps_p0, 
-  tolerance = tol_p0,
-  scale     = penaltyScale
 );</Text-field>
 </Input>
 </Group>
@@ -309,15 +294,14 @@ uvars := map([vJ],(zeta));
 </Group>
 <Group hide-input="false" labelreference="L329241" drawlabel="true" applyint="true" applyrational="true" applyexponent="false">
 <Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">CONTINUATION := [
-  [ 
-    [ &quot;vJ&quot;, &quot;tolerance&quot; ] = (1-s)*tol_c0 + s*tol_c1,
-    [ &quot;vJ&quot;, &quot;epsilon&quot;   ] = (1-s)*eps_c0 + s*eps_c1,
+  [    theta__0__c = theta__0__c0 + (theta__0-theta__0__c0) * s,    kappa__0__c = 0 + kappa__0 * s,    theta__T__c = theta__T__c0 + (theta__T-theta__T__c0) * s,
+    kappa__T__c = 0 + kappa__T * s  ],  [ 
+    [ &quot;J__n&quot;, &quot;tolerance&quot; ] = (1-s)*tol_c0 + s*tol_c1,
+    [ &quot;J__n&quot;, &quot;epsilon&quot;   ] = (1-s)*eps_c0 + s*eps_c1,
 
     [ &quot;max_curvature&quot;, &quot;tolerance&quot; ] = (1-s)*tol_p0 + s*tol_p1,
-    [ &quot;max_curvature&quot;, &quot;epsilon&quot;   ] = (1-s)*eps_p0 + s*eps_p1,
+    [ &quot;max_curvature&quot;, &quot;epsilon&quot;   ] = (1-s)*eps_p0 + s*eps_p1
 
-    [ &quot;max_jerk&quot;, &quot;tolerance&quot; ] = (1-s)*tol_p0 + s*tol_p1,
-    [ &quot;max_jerk&quot;, &quot;epsilon&quot;   ] = (1-s)*eps_p0 + s*eps_p1
   ]
 ];</Text-field>
 </Input>
@@ -368,7 +352,7 @@ uvars := map([vJ],(zeta));
 </Input>
 </Group>
 <Group hide-input="false" labelreference="L44693" drawlabel="true">
-<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">post_process_outputs := []:
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">post_process_outputs := [[J__n(zeta)*J__max ,&quot;J&quot;]]:
 int_post_proc := [];</Text-field>
 </Input>
 </Group>
@@ -378,22 +362,20 @@ int_post_proc := [];</Text-field>
 </Group>
 <Group hide-input="false" labelreference="L44758" drawlabel="true">
 <Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">PARAMETERS := [
+  V = 1.0,
   op(ADD_PARAMS),
-  V          = 1.0,
-  x__0       = 0.0,
-  y__0       = 0.0,
-  theta__0   = 0.0,
-  kappa__0   = 0.0,
-  x__T       = 10.0,
-  y__T       = 10.0,
-  theta__T   = 0.0,
-  kappa__T   = 0.0,
+  x__0 = 0.0,
+  y__0 = 0.0,
+  theta__0 = 0.0,
+  kappa__0 = 0.0,
+  x__T = 10.0,
+  y__T = 10.0,
+  theta__T = 0.0,
+  kappa__T = 0.0,
   kappa__max = 1/R__min,
-  R__min     = 3.0,
-  J__max     = 1.0,
-  vJ__max    = 100.0,
-  w__vJ      = 0.1
-];</Text-field>
+  R__min = 1.0,
+  J__max = 1.0,
+  theta__0__c = theta__0__c0,  kappa__0__c = 0,  theta__T__c = theta__T__c0,  kappa__T__c = 0,  theta__0__c0 = arctan((x__T-x__0),(y__T-y__0)),  theta__T__c0 = arctan((x__T-x__0),(y__T-y__0))];</Text-field>
 </Input>
 </Group>
 <Group labelreference="L47516" drawlabel="true" applyint="true" applyrational="true" applyexponent="false">
@@ -404,7 +386,7 @@ int_post_proc := [];</Text-field>
 <Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">x_guess := [
   x     = x__0     + ( x__T     - x__0     ) * zeta,
   y     = y__0     + ( y__T     - y__0     ) * zeta,
-  theta = theta__0 + ( theta__T - theta__0 ) * zeta,
+  theta = 0 * zeta,
   T     = sqrt((x__T-x__0)^2 + (y__T-y__0)^2)/V  
 ];
 
@@ -556,11 +538,12 @@ plot_display_opts2 := legendstyle = [location=top] ,
 <Group hide-input="false" labelreference="L349978" drawlabel="true" applyint="true" applyrational="true" applyexponent="false">
 <Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">display(
   XOptimaPlots:-plotSolution(
-    zeta, [vJ],
+    zeta, [J__n_cell],
     line_opts = [
       [color=c_set[1],thickness=3]
     ],
-    scale=[1]
+    scale=[1],
+    stair=true
   ),
   plot_display_opts
 );</Text-field>
