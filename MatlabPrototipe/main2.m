@@ -4,7 +4,7 @@ close all
 
 figsize=[0,0,400,800];
 
-kmax = 1.0;
+kmax = 0.5;
 jmax = 1.0;
 v = 1.0;
 x0 = 0;
@@ -14,7 +14,7 @@ kappa0=0;
 
 xT = 20;
 yT = 10;
-thetaT=0.5;
+thetaT=0.0;
 kappaT=0.1;
 
 Dub = Dubber(...
@@ -22,19 +22,36 @@ Dub = Dubber(...
   [xT,yT,thetaT,kappaT],...
   ['R','S','L'],jmax,kmax,1.0);
 
-figure()
 
 Dub.plot();
 
 Dub.cost(1.0,1.0,1.0)
 
-fun = @(x)Dub.cost(x(1),x(2),x(3));
+fun = @(x)Dub.cost(x(1),x(2),x(3)); %% + 0.001 * (x(1) + x(2) + x(3))^2 + (x(1)-x(3))^2;
+%fun = @(x) (x(1) + x(2) + x(3))^2; 
 z0 = [8.0,8.0,8.0];
-z = fminsearch(fun,z0)
+% z = fminsearch(fun,z0)
 
-figure()
+lb = [0,0,0];
+ub = [1000,1000,1000];
+
+A = [];
+b = [];
+Aeq = [];
+beq = [];
+
+options = optimoptions('fmincon');
+options.OptimalityTolerance = 1e-10;
+options.StepTolerance = 1e-10;
+
+z = fmincon(fun,z0,A,b,Aeq,beq,lb,ub)
+
+
 
 Dub.plot();
+
+
+
 
 %%
 
@@ -44,8 +61,7 @@ DubCol = DubberCollector(...
   jmax,kmax,1.0);
 
 
-figure()
-hold on
+
 DubCol.D1.plot();
 DubCol.D2.plot();
 DubCol.D3.plot();
@@ -75,5 +91,10 @@ DubCol.D9.plot();
 DubCol.D10.plot();
 DubCol.D11.plot();
 DubCol.D12.plot();
+
+
+%%
+
+
 
 

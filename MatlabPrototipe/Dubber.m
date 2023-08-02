@@ -58,6 +58,12 @@ classdef Dubber < handle
       C = VEC*VEC';
     end
     %
+    function [c,ceq] = constraint(this,La,Lb,Lc)
+      this.compute_L(La,Lb,Lc);
+      ceq = (this.PT(1:3) - this.Pm7(1:3));
+      c = [];
+    end
+    %
     function L1 = compute_L1(this)
       switch this.TYPE(1)
         case 'R'
@@ -285,6 +291,7 @@ classdef Dubber < handle
     end
     %
     function plot(this)
+      figure()
       plot(this.P0(1),this.P0(2),'bo','LineWidth',2','MarkerSize',5);
       hold on;
       axis equal;
