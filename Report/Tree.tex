@@ -1,43 +1,232 @@
-\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt 
 
 % \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
 \begin{tikzpicture}[
-    every main node/.style={minimum size=0.05cm, font=\footnotesize, inner sep=0.01cm}
+    every node/.style={minimum size=0.05cm, font=\footnotesize, inner sep=0.01cm,scale = 1}
 ]
 
 % Level 0
-\node[draw,circle] (P0) at (0,0) {P0};
+\node[draw,circle,font=\footnotesize, inner sep=0.01cm] (P0) at (0,0) {$P_0$};
 
 % Level 1
-\node[draw,circle] (P11) at ( 2,-1.5) {P1};
-\node[draw,circle] (P12) at ( 0,-1.5) {P1};
-\node[draw,circle] (P13) at (-2,-1.5) {P1};
+\node[draw,circle] (P11) at ( 3.0,-1.) {$P_1$};
+\node[draw,circle] (P12) at ( 0.0,-1.) {$P_1$};
+\node[draw,circle] (P13) at (-3.0,-1.) {$P_1$};
 \draw[red] (P0) -- node[midway, right, shift={(+0.2cm,0)}] {$L_1$} (P11);
 \draw[red] (P0) -- (P12);
 \draw[red] (P0) -- (P13);
 
 % Level 2
-\node[draw,circle] (P21) at ( 2,-3) {P2};
-\node[draw,circle] (P22) at ( 0,-3) {P2};
-\node[draw,circle] (P23) at (-2,-3) {P2};
+\node[draw,circle] (P21) at ( 3.0,-2) {$P_2$};
+\node[draw,circle] (P22) at ( 0.0,-2) {$P_2$};
+\node[draw,circle] (P23) at (-3.0,-2) {$P_2$};
 
 \draw[green] (P11) -- node[midway, right, shift={(+0.2cm,0)}] {$L_2$} (P21);
 \draw[green] (P12) -- (P22);
 \draw[green] (P13) -- (P23);
 
 % Level 3
-\node[draw,circle] (P31) at (4,-4.5) {P3};
-\node[draw,circle] (P32) at (2,-4.5) {P3};
-\node[draw,circle] (P33) at (0,-4.5) {P3};
+\node[draw,circle] (P31) at ( 4.0,-3) {$P_3$};
+\node[draw,circle] (P32) at ( 3.0,-3) {$P_3$};
+\node[draw,circle] (P33) at ( 2.0,-3) {$P_3$};
+%
+\node[draw,circle] (P34) at ( 1.0,-3) {$P_3$};
+\node[draw,circle] (P35) at ( 0.0,-3) {$P_3$};
+\node[draw,circle] (P36) at (-1.0,-3) {$P_3$};
+%
+\node[draw,circle] (P37) at (-2.0,-3) {$P_3$};
+\node[draw,circle] (P38) at (-3.0,-3) {$P_3$};
+\node[draw,circle] (P39) at (-4.0,-3) {$P_3$};
+
+
 
 
 \draw[red] (P21) -- node[midway, right, shift={(+0.2cm,0)}] {$L_3$} (P31);
 \draw[red] (P21) -- (P32);
 \draw[red] (P21) -- (P33);
+%
+\draw[red] (P22) -- (P34);
+\draw[red] (P22) -- (P35);
+\draw[red] (P22) -- (P36);
+%
+\draw[red] (P23) -- (P37);
+\draw[red] (P23) -- (P38);
+\draw[red] (P23) -- (P39);
+%
+
+% layer 4
+
+\node[draw,circle] (P41) at ( 4.0,-4) {$P_4$};
+\node[draw,circle] (P42) at ( 3.0,-4) {$P_4$};
+\node[draw,circle] (P43) at ( 2.0,-4) {$P_4$};
+%
+\node[draw,circle] (P44) at ( 1.0,-4) {$P_4$};
+\node[draw,circle] (P45) at ( 0.0,-4) {$P_4$};
+\node[draw,circle] (P46) at (-1.0,-4) {$P_4$};
+%
+\node[draw,circle] (P47) at (-2.0,-4) {$P_4$};
+\node[draw,circle] (P48) at (-3.0,-4) {$P_4$};
+\node[draw,circle] (P49) at (-4.0,-4) {$P_4$};
+%
+
+\draw[green] (P31) -- node[midway, right, shift={(+0.2cm,0)}] {$L_4$} (P41);
+\draw[green] (P32) -- (P42);
+\draw[green] (P33) -- (P43);
+%
+\draw[green] (P34) -- (P44);
+\draw[green] (P35) -- (P45);
+\draw[green] (P36) -- (P46);
+%
+\draw[green] (P37) -- (P47);
+\draw[green] (P38) -- (P48);
+\draw[green] (P39) -- (P49);
+%
+
+% layer 5
+
+\node[draw,circle] (P51) at ( 4.5,-5) {$P_5$};
+\node[draw,circle] (P52) at ( 4.0,-5) {$P_5$};
+\node[draw,circle] (P53) at ( 3.5,-5) {$P_5$};
+%
+\node[draw,circle] (P54) at ( 3.0,-5) {$P_5$};
+\node[draw,circle] (P55) at ( 2.5,-5) {$P_5$};
+\node[draw,circle] (P56) at ( 2.0,-5) {$P_5$};
+%
+\node[draw,circle] (P57) at ( 1.5,-5) {$P_5$};
+\node[draw,circle] (P58) at ( 1.0,-5) {$P_5$};
+\node[draw,circle] (P59) at ( 0.5,-5) {$P_5$};
+%
+\node[draw,circle] (P510) at (-0.5,-5) {$P_5$};
+\node[draw,circle] (P511) at (-1.0,-5) {$P_5$};
+\node[draw,circle] (P512) at (-1.5,-5) {$P_5$};
+%
+\node[draw,circle] (P513) at (-2.0,-5) {$P_5$};
+\node[draw,circle] (P514) at (-2.5,-5) {$P_5$};
+\node[draw,circle] (P515) at (-3.0,-5) {$P_5$};
+%
+\node[draw,circle] (P516) at (-3.5,-5) {$P_5$};
+\node[draw,circle] (P517) at (-4.0,-5) {$P_5$};
+\node[draw,circle] (P518) at (-4.5,-5) {$P_5$};
+%
 
 
 
-% % Level 3
+
+%
+\draw[red] (P42) -- node[midway, right, shift={(+0.2cm,0)}] {$L_5$} (P51);
+\draw[red] (P42) -- (P52);
+\draw[red] (P42) -- (P53);
+%
+\draw[red] (P43) -- (P54);
+\draw[red] (P43) -- (P55);
+\draw[red] (P43) -- (P56);
+%
+\draw[red] (P44) -- (P57);
+\draw[red] (P44) -- (P58);
+\draw[red] (P44) -- (P59);
+%
+\draw[red] (P46) -- (P510);
+\draw[red] (P46) -- (P511);
+\draw[red] (P46) -- (P512);
+%
+\draw[red] (P47) -- (P513);
+\draw[red] (P47) -- (P514);
+\draw[red] (P47) -- (P515);
+%
+\draw[red] (P48) -- (P516);
+\draw[red] (P48) -- (P517);
+\draw[red] (P48) -- (P518);
+
+% layer 6
+\node[draw,circle] (P61) at ( 4.5,-6) {$P_6$};
+\node[draw,circle] (P62) at ( 4.0,-6) {$P_6$};
+\node[draw,circle] (P63) at ( 3.5,-6) {$P_6$};
+%
+\node[draw,circle] (P64) at ( 3.0,-6) {$P_6$};
+\node[draw,circle] (P65) at ( 2.5,-6) {$P_6$};
+\node[draw,circle] (P66) at ( 2.0,-6) {$P_6$};
+%
+\node[draw,circle] (P67) at ( 1.5,-6) {$P_6$};
+\node[draw,circle] (P68) at ( 1.0,-6) {$P_6$};
+\node[draw,circle] (P69) at ( 0.5,-6) {$P_6$};
+%
+\node[draw,circle] (P610) at (-0.5,-6) {$P_6$};
+\node[draw,circle] (P611) at (-1.0,-6) {$P_6$};
+\node[draw,circle] (P612) at (-1.5,-6) {$P_6$};
+%
+\node[draw,circle] (P613) at (-2.0,-6) {$P_6$};
+\node[draw,circle] (P614) at (-2.5,-6) {$P_6$};
+\node[draw,circle] (P615) at (-3.0,-6) {$P_6$};
+%
+\node[draw,circle] (P616) at (-3.5,-6) {$P_6$};
+\node[draw,circle] (P617) at (-4.0,-6) {$P_6$};
+\node[draw,circle] (P618) at (-4.5,-6) {$P_6$};
+%
+
+%
+\draw[green] (P51) -- node[midway, right, shift={(+0.2cm,0)}] {$L_6$} (P61);
+\draw[green] (P52) -- (P62);
+\draw[green] (P53) -- (P63);
+%
+\draw[green] (P54) -- (P64);
+\draw[green] (P55) -- (P65);
+\draw[green] (P56) -- (P66);
+%
+\draw[green] (P57) -- (P67);
+\draw[green] (P58) -- (P68);
+\draw[green] (P59) -- (P69);
+%
+\draw[green] (P510) -- (P610);
+\draw[green] (P511) -- (P611);
+\draw[green] (P512) -- (P612);
+%
+\draw[green] (P513) -- (P613);
+\draw[green] (P514) -- (P614);
+\draw[green] (P515) -- (P615);
+%
+\draw[green] (P516) -- (P616);
+\draw[green] (P517) -- (P617);
+\draw[green] (P518) -- (P618);
+%
+
+% % Level 7
+
+\node[draw,circle,font=\footnotesize, inner sep=0.01cm] (P7) at (0,-9) {$P_T$};
+
+\draw[orange] (P61) -- node[midway, right, shift={(+0.2cm,0)}] {$L_7$} (P7);
+\draw[orange] (P62) -- (P7);
+\draw[orange] (P63) -- (P7);
+%   
+\draw[orange] (P64) -- (P7);
+\draw[orange] (P65) -- (P7);
+\draw[orange] (P66) -- (P7);
+%
+\draw[orange] (P67) -- (P7);
+\draw[orange] (P68) -- (P7);
+\draw[orange] (P69) -- (P7);
+%
+\draw[orange] (P610) -- (P7);
+\draw[orange] (P611) -- (P7);
+\draw[orange] (P612) -- (P7);
+%
+\draw[orange] (P613) -- (P7);
+\draw[orange] (P614) -- (P7);
+\draw[orange] (P615) -- (P7);
+%
+\draw[orange] (P616) -- (P7);
+\draw[orange] (P617) -- (P7);
+\draw[orange] (P618) -- (P7);
+%
+
+% curved connection between P41 and P7
+\draw[blue] (P11) to[out=0,in=0] (P7);
+
+% curved large connction between P49 and P7
+\draw[blue] (P13) to[out=180,in=180] (P7);
+
+% connect P45 and P7
+\draw[blue] (P12) to[out=180,in=180] (P7);
 
 
 \end{tikzpicture}

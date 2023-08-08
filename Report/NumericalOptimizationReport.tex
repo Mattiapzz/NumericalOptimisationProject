@@ -117,7 +117,10 @@ Thu, the problem can be treated as a mixed integer optimization that in general 
 
 \begin{figure}[ht]
   \centering
-  \include{Tree.tex}
+  \resizebox{\linewidth}{!}{%
+    \input{Tree.tex}%
+  }%
+  % \include{Tree.tex}
   \caption{Possible Combination}
   \label{fig:possiblecombination}
 \end{figure}
@@ -129,7 +132,13 @@ The problem was tackled with two numerical approaches. The first writing the pro
 
 \subsection*{PINS}
 
+TO BE DESCRIBED WITH SOME GRAPHS. NEED TO COMPILE THE MEX.
+
 \subsection*{MATLAB exploration of possible paths}
+
+The problem can be solved with a naive exploration of all the possible combination of maneuvers. In fact, all possible connection are a combination of the simple elementary Dubins connected by segments with linearly varying curvature also known as clothoids.\cite{bertolazzi2015g1}\\
+An analysis done by hand and the of the numerical solution using PINS suggest, that there are at most $7$ connection between two points. With $3$ arcs at constant curvature and $4$ arcs that connect all the arcs.\\
+
 
 
 
