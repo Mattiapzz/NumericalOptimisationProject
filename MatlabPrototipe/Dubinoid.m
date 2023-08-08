@@ -130,7 +130,7 @@ classdef Dubinoid < handle
           case 'R'
             IG(i) = (2*pi/this.K_max)/2;
           case 'S'
-            IG(i) = norm(this.PT(1:2)-this.P0(1:2))/2; %% at least 100 times the distance
+            IG(i) = norm(this.PT(1:2)-this.P0(1:2)); %% at least 100 times the distance
         end
       end
     end
@@ -143,7 +143,7 @@ classdef Dubinoid < handle
     %
     function C = cost(this,La,Lb,Lc)
       this.compute_L(La,Lb,Lc);
-      VEC = (this.PT(1:3) - this.Pm7(1:3));
+      VEC = (this.PT(1:3) - this.Pm7(1:3));;
       C = dot(VEC,VEC);
       this.last_cost = C;
     end
@@ -221,6 +221,9 @@ classdef Dubinoid < handle
     %
     function L3 = compute_L3(this)
       switch this.TYPE(2)
+        case '0'
+          this.L3  = 0;
+          this.Pm3 = this.Pm2;
         case 'L'
           if abs(this.Pm2(4) -  this.K_max) < this.EPS
             this.L3  = 0;
@@ -277,6 +280,12 @@ classdef Dubinoid < handle
     end
     %
     function compute_L4(this,L4)
+      if this.TYPE(2) == '0'
+        this.L4  = 0;
+        this.Pm4 = this.Pm3;
+        return;
+      end
+      %
       if L4 < this.EPS
         this.L4  = 0;
         this.Pm4 = this.Pm3;
@@ -292,6 +301,9 @@ classdef Dubinoid < handle
     %
     function L5 = compute_L5(this)
       switch this.TYPE(3)
+        case '0'
+          this.L5  = 0;
+          this.Pm5 = this.Pm4;
         case 'L'
           if abs(this.Pm4(4) -  this.K_max) < this.EPS
             this.L5  = 0;
@@ -346,6 +358,11 @@ classdef Dubinoid < handle
     end
     %
     function compute_L6(this,L6)
+      if this.TYPE(3) == '0'
+        this.L6  = 0;
+        this.Pm6 = this.Pm5;
+        return;
+      end
       if L6 < this.EPS
         this.L6  = 0;
         this.Pm6 = this.Pm5;

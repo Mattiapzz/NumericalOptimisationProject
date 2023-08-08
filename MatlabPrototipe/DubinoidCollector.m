@@ -83,7 +83,7 @@ classdef DubinoidCollector < handle
     %
     function plot(this,varargin)
       for i=1:length(this.comb)
-        this.DS(i).plot(varargin);
+        this.DS(i).plot(varargin{:});
       end
     end
     %
@@ -98,7 +98,7 @@ classdef DubinoidCollector < handle
     function plot_all_best(this,varargin)
       if this.idx_best > 0
         for i=1:length(this.D_best_candidates)
-          this.D_best_candidates(i).plot(varargin);
+          this.D_best_candidates(i).plot(varargin{:});
         end
       else
         fprintf("No suitable combination found to solve the problem within the tolerance\n");
