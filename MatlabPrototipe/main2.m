@@ -1,100 +1,207 @@
+%% TEST 0 Dubinoid
 clc;
 clear all;
-close all
+close all;
+setup();
+%%
 
-figsize=[0,0,400,800];
+fprintf("TEST - 0\n")
+%%
 
-kmax = 0.5;
-jmax = 1.0;
+kmax = 0.15;
+jmax = 0.08;
 v = 1.0;
 x0 = 0;
 y0 = 0;
 theta0=0;
 kappa0=0;
 
-xT = 20;
-yT = 10;
-thetaT=0.0;
-kappaT=0.1;
 
-Dub = Dubber(...
-  [x0,y0,theta0,kappa0],...
-  [xT,yT,thetaT,kappaT],...
-  ['R','S','L'],jmax,kmax,1.0);
+for i = 0:5:40
+  xT = 40;
+  yT = i;
+  thetaT=0;
+  kappaT=0;
 
-
-Dub.plot();
-
-Dub.cost(1.0,1.0,1.0)
-
-fun = @(x)Dub.cost(x(1),x(2),x(3)); %% + 0.001 * (x(1) + x(2) + x(3))^2 + (x(1)-x(3))^2;
-%fun = @(x) (x(1) + x(2) + x(3))^2; 
-z0 = [8.0,8.0,8.0];
-% z = fminsearch(fun,z0)
-
-lb = [0,0,0];
-ub = [1000,1000,1000];
-
-A = [];
-b = [];
-Aeq = [];
-beq = [];
-
-options = optimoptions('fmincon');
-options.OptimalityTolerance = 1e-10;
-options.StepTolerance = 1e-10;
-
-z = fmincon(fun,z0,A,b,Aeq,beq,lb,ub)
+  DubCol = DubinoidCollector(...
+    [x0,y0,theta0,kappa0],...
+    [xT,yT,thetaT,kappaT],...
+    jmax,kmax,1.0);
 
 
+  DubCol.optimize()
 
-Dub.plot();
+  DubCol.plot_best();
+end
 
-
+fprintf("Final y span DONE\n")
 
 
 %%
 
-DubCol = DubberCollector(...
+kmax = 0.15;
+jmax = 0.08;
+v = 1.0;
+x0 = 0;
+y0 = 0;
+theta0=0;
+kappa0=0;
+
+
+for i = 0:0.1:1
+  xT = 40;
+  yT = 20;
+  thetaT=i*pi/2;
+  kappaT=0;
+
+  DubCol = DubinoidCollector(...
+    [x0,y0,theta0,kappa0],...
+    [xT,yT,thetaT,kappaT],...
+    jmax,kmax,1.0);
+
+
+  DubCol.optimize()
+
+  DubCol.plot_best();
+end
+
+fprintf("Final heading span DONE\n")
+
+%%
+
+kmax = 0.2;
+jmax = 0.2;
+v = 1.0;
+x0 = 0;
+y0 = 0;
+theta0=0;
+kappa0=0;
+
+
+for i = 0:0.1:1
+  xT = 40;
+  yT = 20;
+  thetaT=0;
+  kappaT=i*kmax;
+
+  DubCol = DubinoidCollector(...
+    [x0,y0,theta0,kappa0],...
+    [xT,yT,thetaT,kappaT],...
+    jmax,kmax,1.0);
+
+
+  DubCol.optimize()
+
+  DubCol.plot_best();
+end
+
+fprintf("Final curvature span DONE\n")
+
+%%
+
+kmax = 0.4;
+jmax = 0.1;
+v = 1.0;
+x0 = 0;
+y0 = 0;
+theta0=0;
+kappa0=0;
+
+xT = 0;
+yT = -10;
+thetaT=pi;
+kappaT=0;
+
+DubCol = DubinoidCollector(...
   [x0,y0,theta0,kappa0],...
   [xT,yT,thetaT,kappaT],...
   jmax,kmax,1.0);
 
 
+DubCol.optimize()
 
-DubCol.D1.plot();
-DubCol.D2.plot();
-DubCol.D3.plot();
-DubCol.D4.plot();
-DubCol.D5.plot();
-DubCol.D6.plot();
-DubCol.D7.plot();
-DubCol.D8.plot();
-DubCol.D9.plot();
-DubCol.D10.plot();
-DubCol.D11.plot();
-DubCol.D12.plot();
+DubCol.plot_best();
 
-DubCol.optimise();
-
-figure()
-hold on
-DubCol.D1.plot();
-DubCol.D2.plot();
-DubCol.D3.plot();
-DubCol.D4.plot();
-DubCol.D5.plot();
-DubCol.D6.plot();
-DubCol.D7.plot();
-DubCol.D8.plot();
-DubCol.D9.plot();
-DubCol.D10.plot();
-DubCol.D11.plot();
-DubCol.D12.plot();
+fprintf("Exotic example DONE\n")
 
 
 %%
 
+kmax = 0.15;
+jmax = 0.5;
+v = 1.0;
+x0 = 0;
+y0 = 0;
+theta0=0;
+kappa0=0;
+
+xT = -2;
+yT = -10;
+thetaT=pi+pi/18;
+kappaT=0.01;
+
+DubCol = DubinoidCollector(...
+  [x0,y0,theta0,kappa0],...
+  [xT,yT,thetaT,kappaT],...
+  jmax,kmax,1.0);
 
 
+DubCol.optimize()
 
+DubCol.plot_best();
+
+fprintf("Exotic example 2 DONE\n")
+
+
+%%
+
+kmax = 0.16;
+jmax = 0.5;
+v = 1.0;
+x0 = 0;
+y0 = 0;
+theta0=0;
+kappa0=0;
+
+xT = 6.45;
+yT = -6.45;
+thetaT=-pi/2;
+kappaT=0;
+
+DubCol = DubinoidCollector(...
+  [x0,y0,theta0,kappa0],...
+  [xT,yT,thetaT,kappaT],...
+  jmax,kmax,1.0);
+
+
+DubCol.optimize()
+
+DubCol.plot_best();
+
+fprintf("Exotic example 2 DONE\n")
+
+%%
+kmax = 0.2;
+jmax = 0.5;
+v = 1.0;
+x0 = 0;
+y0 = 0;
+theta0=0;
+kappa0=-0.2;
+
+xT = 5.0;
+yT = -5.0;
+thetaT=-pi/2;
+kappaT=-0.2;
+
+DubCol = DubinoidCollector(...
+  [x0,y0,theta0,kappa0],...
+  [xT,yT,thetaT,kappaT],...
+  jmax,kmax,1.0);
+
+
+DubCol.optimize()
+
+DubCol.plot_best();
+
+fprintf("Exotic example 2 DONE\n")

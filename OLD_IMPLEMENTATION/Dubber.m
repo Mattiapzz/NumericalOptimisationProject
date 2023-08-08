@@ -22,6 +22,7 @@ classdef Dubber < handle
     L6=1;
     L7=1;
     EPS = 10e-8;
+    last_cost = 0;
   end
   methods
     function this = Dubber(P0,PT,TYPE,J_max,K_max,V)
@@ -46,16 +47,29 @@ classdef Dubber < handle
     end
     %
     function optimize_L2L4L6(this,La,Lb,Lc)
-      Ls0 = [La,Lb,Lc];
-      fun = @(x)this.cost(x(1),x(2),x(3)) ;
-      Ls = fminsearch(fun,Ls0);
-      this.compute_L(Ls(1),Ls(2),Ls(3));
+      fun = @(x)this.cost(x(1),x(2),x(3)); %% + 0.001 * (x(1) + x(2) + x(3))^2 + (x(1)-x(3))^2;
+      z0 = [La,Lb,Lc];
+      VEC = (this.PT(1:2) - this.P0(1:2));
+      L_lim = 100 * sqrt(VEC*VEC');
+      lb = [0,0,0];
+      ub = [1,1,1]*L_lim;
+      A = [];
+      b = [];
+      Aeq = [];
+      beq = [];
+      options = optimoptions('fmincon');
+      options.OptimalityTolerance = 1e-10;
+      options.StepTolerance       = 1e-10;
+      options.Display             = 'off';
+      z = fmincon(fun,z0,A,b,Aeq,beq,lb,ub,[],options);
+      this.compute_L(z(1),z(2),z(3));
     end
     %
     function C = cost(this,La,Lb,Lc)
       this.compute_L(La,Lb,Lc);
       VEC = [1.0,1.0,1.0].*(this.PT(1:3) - this.Pm7(1:3));
       C = VEC*VEC';
+      this.last_cost = C;
     end
     %
     function [c,ceq] = constraint(this,La,Lb,Lc)
@@ -84,7 +98,7 @@ classdef Dubber < handle
             this.L1  = 0;
             this.Pm1 = this.P0;
           else
-            T = abs(this.K_max - this.P0(4))/this.J_max;
+            T = abs(-this.K_max - this.P0(4))/this.J_max;
             PL = this.integrate_sys(this.P0,-this.J_max,T);
             this.Pm1(1) =  PL(1);
             this.Pm1(2) =  PL(2);
@@ -140,7 +154,7 @@ classdef Dubber < handle
             this.L1  = 0;
             this.Pm3 = this.Pm2;
           else
-            T = abs(this.K_max - this.Pm2(4))/this.J_max;
+            T = abs(-this.K_max - this.Pm2(4))/this.J_max;
             PL = this.integrate_sys(this.Pm2,-this.J_max,T);
             this.Pm3(1) =  PL(1);
             this.Pm3(2) =  PL(2);
@@ -196,7 +210,7 @@ classdef Dubber < handle
             this.L1  = 0;
             this.Pm5 = this.Pm4;
           else
-            T = abs(this.K_max - this.Pm4(4))/this.J_max;
+            T = abs(-this.K_max - this.Pm4(4))/this.J_max;
             PL = this.integrate_sys(this.Pm4,-this.J_max,T);
             this.Pm5(1) =  PL(1);
             this.Pm5(2) =  PL(2);

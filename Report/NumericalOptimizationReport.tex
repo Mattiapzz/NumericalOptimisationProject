@@ -1,0 +1,148 @@
+\documentclass[11pt,twocolumn]{scrartcl}
+
+\include{setup.tex}
+\usepackage{siunitx}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+\makeatother
+
+
+\title{Report of Course Numerical Optimization}
+\subtitle{Duboids: Extended Dubins path with Clothoids Junctions}
+\author{Mattia Piazza}
+\date{\today}
+ 
+\begin{document}
+\twocolumn[\maketitle ]
+
+% \begin{multicols}{2}
+  
+\section*{Introduction}
+
+The Dubins path is a well known problem in robotics and trajectory planning. The problem consists in finding the shortest path to connect two points in a plane with a prescribed heading (initial and final) with a maxim curvature constraint. This problem is suitable for mobile robots that are not omnidirectional. The solution can be derived analytically and is composed of a sequence of circular arcs and straight lines.\cite{shkel2001classification,chen2019shortest,jha2020shortest} The Dubins path is a special case of the Reeds-Shepp path\cite{duits2018optimal} where also backward motion is allowed.
+
+The problem can be stated as follows:
+%
+\begin{equation}
+  \begin{split}
+    &\min \int_0^T v \differential t = \min v T \\ % \min_{|\kappa|\le\kappa_{max}}
+    &\dot{x}(t)      = v \cos(\theta(t)) \\
+    &\dot{y}(t)      = v \sin(\theta(t)) \\
+    &\dot{\theta}(t) = v \kappa(t)       \\
+    &x(0)      = x_0,      \; x(T)      = x_T\\
+    &y(0)      = y_0,      \; y(T)      = y_T\\
+    &\theta(0) = \theta_0, \; \theta(T) = \theta_T\\
+    &-\kappa_{max} \le \kappa(t) \le \kappa_{max}   
+  \end{split}
+\end{equation}
+%
+Where $v$ is a fixed velocity, $x$, $y$ and $\theta$ are the position and heading of the vehicle, $\kappa$ is the curvature of the path and $\kappa_{max}$ is the maximum curvature allowed. 
+The analytic solution to this problem is at most a sequence of 3 arcs, either left of right circular arcs at maximum curvature or straight lines.\cite{shkel2001classification}\\
+%
+This problem and its solution can be applied in vehicle moving slowly and where the curvature change is almost instantaneous. However, real vehicles have a physical limit in the maximum curvature and maximum curvature rate. For this reason, we are looking to an extension of the Dubins path to incorporate this limitation as we will see in the next section exploiting clothoids.\cite{bertolazzi2015g1,bertolazzi2018clothoids}
+%
+\section*{Problem}
+%
+The problem we want to solve is to minimize the time while connecting two points in the Cartesian space with a prescribed heading and curvature both at initial and final time. This problem can be formulated in the following way:
+%
+\begin{equation}
+  \begin{split}
+    &\min v T \\ 
+    &\dot{x}(t)      = v \cos(\theta(t)) \\
+    &\dot{y}(t)      = v \sin(\theta(t)) \\
+    &\dot{\theta}(t) = v \kappa(t)       \\
+    &\dot{\kappa}(t) = J(t)              \\
+    &x(0)      = x_0,      \; x(T)      = x_T     \\
+    &y(0)      = y_0,      \; y(T)      = y_T     \\
+    &\theta(0) = \theta_0, \; \theta(T) = \theta_T\\
+    &\kappa(0) = \kappa_0, \; \kappa(T) = \kappa_T\\
+    &-\kappa_{max} \le \kappa(t) \le \kappa_{max} \\
+    &-J_{max} \le J(t) \le J_{max}
+  \end{split}
+\end{equation}
+%
+Where $v$ is a fixed velocity, $x$, $y$ and $\theta$ are the position and heading of the vehicle, $\kappa$ is the curvature of the path, $\kappa_{max}$ is the maximum curvature allowed, $J$ is the controlled curvature rate (Jerk) and $J_{max}$ is the maximum curvature rate allowed.\\
+%
+This problem can be translated into a BVP (Boundary Value Problem) and solved in a semi-analitycal fashion. In fact, the solution is composed of several arcs either at maximum rate (positive or negative or at zero rate). 
+%
+\subsection*{Analytic solution}
+%
+The Hemiltonian function of the problem is:
+%
+\begin{equation}
+  \begin{split}
+    H = &\lambda_1(t) v \cos(\theta(t)) + \lambda_2(t) v \sin(\theta(t)) \\
+        &+ \lambda_3(t) v \kappa(t) + \lambda_4(t) J(t)\\
+        &+ \mu_1(t) (\kappa(t)-\kappa_{max}) + \mu_2(t) (-\kappa(t)+\kappa_{max})
+  \end{split}
+\end{equation}
+%
+The costate equations are:
+%
+\begin{equation}
+  \begin{split}
+    &\dot{\lambda_1}(t) = 0 \\
+    &\dot{\lambda_2}(t) = 0 \\
+    &\dot{\lambda_3}(t) = \lambda_1(t) v \sin(\theta(t)) - \lambda_2(t) v \cos(\theta(t)) \\
+    &\dot{\lambda_4}(t) = -\lambda_3(t) v -\mu_1(t) + \mu_2(t) \\
+  \end{split}
+\end{equation}
+%
+Which yield that $\lambda_1$ and $\lambda_2$ are constant.\\
+Moreover, the control is
+%
+\begin{equation}
+  J(t) = \underset{ J \in [-J_{max},J_{max}]}{ \textrm{argmin} } \; H 
+\end{equation}
+%
+However, $H$ is linear in $J$, thus the second derivative with respect to the control is null, and the problem became singular. In the case of a singular arc, the control is either at the maximum or minimum of the control set or at zero.
+%
+\begin{equation}
+  J(t) = \begin{cases}
+    +J_{max} & \text{if } \lambda_4(t) > 0 \\
+    -J_{max} & \text{if } \lambda_4(t) < 0 \\
+    0 & \text{if } \lambda_4(t) = 0
+  \end{cases}
+\end{equation}
+%
+\subsection*{Physical interpretation}
+
+The physical interpretation is that the vehicle is either changing the curvature at maximum rate, or keeping the curvature constant.
+The only case when the curvature is kept constant is when the vehicle is travelling straight or when it is travelling at maximum curvature.
+Thu, the problem can be treated as a mixed integer optimization that in general is NP-hard.
+
+
+\begin{figure}[ht]
+  \centering
+  \include{Tree.tex}
+  \caption{Possible Combination}
+  \label{fig:possiblecombination}
+\end{figure}
+
+
+\section*{Numeric solution}
+
+The problem was tackled with two numerical approaches. The first writing the problem as an Optimal Control Problem (OCP) and solving it with the indirect direct method and constraints formulated as penalization with PINS (PINS Is Not a Solver)\cite{biral2016notes}. The second approach was a naive exploration of all the possible maneuver combination to solve the problem.
+
+\subsection*{PINS}
+
+\subsection*{MATLAB exploration of possible paths}
+
+
+
+%%%% References
+\bibliographystyle{ieeetr}
+%\bibliographystyle{plain}
+%\footnotesize
+\bibliography{Bibliography}
+%
+
+
+
+% \end{multicols}
+ 
+\end{document}
+

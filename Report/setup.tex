@@ -1,0 +1,71 @@
+% \usepackage{mathpazo}
+% \usepackage{multicol}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[top = 2.0cm, bottom = 2.0cm, right = 1.8cm, left = 1.8cm]{geometry}
+\usepackage{amsmath,amssymb} %packages for Mathematics
+\usepackage{physics}
+\usepackage{cases}
+\usepackage{amsfonts}
+
+% \definecolor{UniTnRed}{RGB}{177,10,37}
+\definecolor{UniTnRed}{RGB}{125,02,12}
+\definecolor{UniTnGray}{RGB}{218,218,218}
+\definecolor{UniTnOrange}{RGB}{206,176,123}
+
+\definecolor{customgreen}{RGB}{0,128,0} % Define the custom green color
+
+\makeatletter
+\renewcommand\maketitle
+{
+    \noindent
+    {\color{UniTnOrange}\rule{\textwidth}{2pt}}
+    \vspace{0.5cm}\\
+    {\Large\bfseries\textcolor{UniTnRed}{\@title}}%
+    \medskip\par\noindent
+    {\Large\bfseries\textcolor{UniTnRed}{\@subtitle}}\\
+    \;
+    \medskip\par\noindent
+    {\large\bfseries\textcolor{UniTnRed}{\@author}}%
+    {\large\quad University of Trento}
+    \hfill
+    {\large\@date}\\
+    \;\\%
+    {\color{UniTnOrange}\rule{\textwidth}{2pt}}
+    \bigskip\par\noindent
+}
+
+% avoid indent
+\setlength{\parindent}{0pt}
+
+% create a command \rm to remove the math font
+\newcommand{\rm}{\mathrm}
+% add package 
+
+\usepackage{cancel}
+
+
+
+\definecolor{darkolivegreen   }{RGB}{ 85,107, 47}
+\definecolor{darksalmon       }{RGB}{233,150,122}
+\definecolor{darkseagreen     }{RGB}{143,188,143}
+\definecolor{darkslateblue    }{RGB}{ 72, 61,139}
+\definecolor{deepskyblue      }{RGB}{  0,191,255}
+\definecolor{dodgerblue       }{RGB}{ 30,144,255}
+\definecolor{green            }{RGB}{  0,128,  0}
+\definecolor{indigo           }{RGB}{ 75,  0,130}
+\definecolor{lawngreen        }{RGB}{124,252,  0}
+\definecolor{lightgreen       }{RGB}{144,238,144}
+\definecolor{lightseagreen    }{RGB}{ 32,178,170}
+\definecolor{lightskyblue     }{RGB}{135,206,250}
+\definecolor{lightsteelblue   }{RGB}{176,196,222}
+\definecolor{lime             }{RGB}{  0,255,  0}
+\definecolor{limegreen        }{RGB}{ 50,205, 50}
+\definecolor{midnightblue     }{RGB}{ 25, 25,112}
+\definecolor{orange           }{RGB}{255,165,  0}
+\definecolor{orchid           }{RGB}{218,112,214}
+\definecolor{skyblue          }{RGB}{135,206,235}
+\definecolor{slateblue        }{RGB}{106, 90,205}
+\definecolor{springgreen      }{RGB}{  0,255,127}
+\definecolor{steelblue        }{RGB}{ 70,130,180}
+\definecolor{turquoise        }{RGB}{ 64,224,208}
+\definecolor{violet           }{RGB}{238,130,238}

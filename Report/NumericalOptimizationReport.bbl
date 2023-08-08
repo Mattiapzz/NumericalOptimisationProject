@@ -1,0 +1,24 @@
+\begin{thebibliography}{1}
+
+\bibitem{shkel2001classification}
+A.~M. Shkel and V.~Lumelsky, ``Classification of the dubins set,'' {\em Robotics and Autonomous Systems}, vol.~34, no.~4, pp.~179--202, 2001.
+
+\bibitem{chen2019shortest}
+Z.~Chen and T.~Shima, ``Shortest dubins paths through three points,'' {\em Automatica}, vol.~105, pp.~368--375, 2019.
+
+\bibitem{jha2020shortest}
+B.~Jha, Z.~Chen, and T.~Shima, ``On shortest dubins path via a circular boundary,'' {\em Automatica}, vol.~121, p.~109192, 2020.
+
+\bibitem{duits2018optimal}
+R.~Duits, S.~P. Meesters, J.-M. Mirebeau, and J.~M. Portegies, ``Optimal paths for variants of the 2d and 3d reeds--shepp car with applications in image analysis,'' {\em Journal of Mathematical Imaging and Vision}, vol.~60, pp.~816--848, 2018.
+
+\bibitem{bertolazzi2015g1}
+E.~Bertolazzi and M.~Frego, ``G1 fitting with clothoids,'' {\em Mathematical Methods in the Applied Sciences}, vol.~38, no.~5, pp.~881--897, 2015.
+
+\bibitem{bertolazzi2018clothoids}
+E.~Bertolazzi, P.~Bevilacqua, M.~Frego, {\em et~al.}, ``Clothoids: a c++ library with matlab interface for the handling of clothoid curves,'' {\em Rend. Sem. Mat. Univ. Pol. Torino}, vol.~76, no.~2, pp.~47--56, 2018.
+
+\bibitem{biral2016notes}
+F.~Biral, E.~Bertolazzi, and P.~Bosetti, ``Notes on numerical methods for solving optimal control problems,'' {\em IEEJ Journal of Industry Applications}, vol.~5, no.~2, pp.~154--166, 2016.
+
+\end{thebibliography}

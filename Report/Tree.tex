@@ -1,0 +1,43 @@
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+
+% \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+\begin{tikzpicture}[
+    every main node/.style={minimum size=0.05cm, font=\footnotesize, inner sep=0.01cm}
+]
+
+% Level 0
+\node[draw,circle] (P0) at (0,0) {P0};
+
+% Level 1
+\node[draw,circle] (P11) at ( 2,-1.5) {P1};
+\node[draw,circle] (P12) at ( 0,-1.5) {P1};
+\node[draw,circle] (P13) at (-2,-1.5) {P1};
+\draw[red] (P0) -- node[midway, right, shift={(+0.2cm,0)}] {$L_1$} (P11);
+\draw[red] (P0) -- (P12);
+\draw[red] (P0) -- (P13);
+
+% Level 2
+\node[draw,circle] (P21) at ( 2,-3) {P2};
+\node[draw,circle] (P22) at ( 0,-3) {P2};
+\node[draw,circle] (P23) at (-2,-3) {P2};
+
+\draw[green] (P11) -- node[midway, right, shift={(+0.2cm,0)}] {$L_2$} (P21);
+\draw[green] (P12) -- (P22);
+\draw[green] (P13) -- (P23);
+
+% Level 3
+\node[draw,circle] (P31) at (4,-4.5) {P3};
+\node[draw,circle] (P32) at (2,-4.5) {P3};
+\node[draw,circle] (P33) at (0,-4.5) {P3};
+
+
+\draw[red] (P21) -- node[midway, right, shift={(+0.2cm,0)}] {$L_3$} (P31);
+\draw[red] (P21) -- (P32);
+\draw[red] (P21) -- (P33);
+
+
+
+% % Level 3
+
+
+\end{tikzpicture}
