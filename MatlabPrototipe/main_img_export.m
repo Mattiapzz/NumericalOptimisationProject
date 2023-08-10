@@ -29,7 +29,10 @@ DubCol = DubinoidCollector(...
 % find the optimal junctions
 DubCol.optimize()
 % plot the optimal path
-DubCol.plot_best();
+fh = DubCol.plot_best();
+
+matlab2tikz('figurehandle',fh,'filename','Duboids0.tex' ,...
+  'height', '\linewidth', 'width', '\linewidth')
 
 %%
 
@@ -54,7 +57,10 @@ DubCol = DubinoidCollector(...
 % find the optimal junctions
 DubCol.optimize()
 % plot the optimal path
-DubCol.plot_best();
+fh = DubCol.plot_best();
+
+matlab2tikz('figurehandle',fh,'filename','Duboids1.tex' ,...
+  'height', '\linewidth', 'width', '\linewidth')
 
 %%
 
@@ -67,10 +73,10 @@ y0     = 0;
 theta0 = 0;
 kappa0 = 0;
 % final values
-xT     = -5.2;
-yT     = -1.333;
-thetaT = -0*pi+0.02;
-kappaT = 0-0.03;
+xT     = -1.0;
+yT     = 0;
+thetaT = 0;
+kappaT = 0;
 % initialise the collector
 DubCol = DubinoidCollector(...
   [x0,y0,theta0,kappa0],...
@@ -79,12 +85,15 @@ DubCol = DubinoidCollector(...
 % find the optimal junctions
 DubCol.optimize()
 % plot the optimal path
-DubCol.plot_best();
+fh = DubCol.plot_best();
+
+matlab2tikz('figurehandle',fh,'filename','Duboids2.tex' ,...
+  'height', '\linewidth', 'width', '\linewidth')
 
 %%
 
 kmax   = 0.2;
-jmax   = 0.2;
+jmax   = 0.5;
 v      = 1.0;
 % initial values
 x0     = 0;
@@ -92,10 +101,10 @@ y0     = 0;
 theta0 = 0;
 kappa0 = 0;
 % final values
-xT     = -5.2;
-yT     = -1.333;
-thetaT = -2*pi+0.02;
-kappaT = 0-0.03;
+xT     = 0;
+yT     = 0;
+thetaT = -pi;
+kappaT = 0;
 % initialise the collector
 DubCol = DubinoidCollector(...
   [x0,y0,theta0,kappa0],...
@@ -104,8 +113,10 @@ DubCol = DubinoidCollector(...
 % find the optimal junctions
 DubCol.optimize()
 % plot the optimal path
-DubCol.plot_best();
+fh = DubCol.plot_best();
 
+matlab2tikz('figurehandle',fh,'filename','Duboids3.tex' ,...
+  'height', '\linewidth', 'width', '\linewidth')
 
 
 %%
@@ -119,9 +130,9 @@ y0     = 0;
 theta0 = 0;
 kappa0 = 0;
 % final values
-xT     = 5;
-yT     = 5;
-thetaT = 0;
+xT     = 0.0;
+yT     = 0.0;
+thetaT = 3*pi/2;
 kappaT = 0;
 % initialise the collector
 DubCol = DubinoidCollector(...
@@ -131,5 +142,7 @@ DubCol = DubinoidCollector(...
 % find the optimal junctions
 DubCol.optimize()
 % plot the optimal path
-DubCol.plot_best();
+fh = DubCol.plot_best();
 
+matlab2tikz('figurehandle',fh,'filename','Duboids4.tex' ,...
+  'height', '\linewidth', 'width', '\linewidth')

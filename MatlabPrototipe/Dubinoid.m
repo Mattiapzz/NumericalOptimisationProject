@@ -116,7 +116,7 @@ classdef Dubinoid < handle
           case 'R'
             UB(i) = 2*pi/this.K_max;
           case 'S'
-            UB(i) = 100*norm(this.PT(1:2)-this.P0(1:2)); %% at least 100 times the distance
+            UB(i) = 10*norm(this.PT(1:2)-this.P0(1:2)); %% at least 100 times the distance
         end
       end
     end
@@ -143,7 +143,7 @@ classdef Dubinoid < handle
     %
     function C = cost(this,La,Lb,Lc)
       this.compute_L(La,Lb,Lc);
-      VEC = (this.PT(1:3) - this.Pm7(1:3));;
+      VEC = (this.PT(1:3) - this.Pm7(1:3));
       C = dot(VEC,VEC);
       this.last_cost = C;
     end
@@ -397,7 +397,7 @@ classdef Dubinoid < handle
       L7 = this.L7;
     end
     %
-    function plot(this,varargin)
+    function fighandle = plot(this,varargin)
       fighandle = [];
       if nargin > 1
         fighandle = varargin{1};
@@ -407,7 +407,15 @@ classdef Dubinoid < handle
       end
       hold on;
       axis equal;
-      %
+      % add xlabel and ylabel
+      xlabel('x(m)');
+      ylabel('y(m)');
+      % add title usign k_max and J_max information + type and total length
+      title(['$L_{tot}$ = ', num2str(this.L) , ', $k_{max}$ = ',num2str(this.K_max),', $J_{max}$ = ',num2str(this.J_max), ', Type = [',this.TYPE , ']']);
+      % add grid and minor grid
+      grid on;
+      grid minor;
+      % 
       SS0 = 0;
       SS1 = this.L1;
       SS2 = SS1+this.L2;
@@ -425,17 +433,17 @@ classdef Dubinoid < handle
       this.plot_interval(fighandle, SS5, SS6,'g-','LineWidth',2);
       this.plot_interval(fighandle, SS6, SS7,'r-','LineWidth',2);
       % plot middle points
-      plot(fighandle,this.Pm1(1),this.Pm1(2),'ro','LineWidth',2','MarkerSize',5);
-      plot(fighandle,this.Pm2(1),this.Pm2(2),'ro','LineWidth',2','MarkerSize',5);
-      plot(fighandle,this.Pm3(1),this.Pm3(2),'ro','LineWidth',2','MarkerSize',5);
-      plot(fighandle,this.Pm4(1),this.Pm4(2),'ro','LineWidth',2','MarkerSize',5);
-      plot(fighandle,this.Pm5(1),this.Pm5(2),'ro','LineWidth',2','MarkerSize',5);
-      plot(fighandle,this.Pm6(1),this.Pm6(2),'ro','LineWidth',2','MarkerSize',5);
-      plot(fighandle,this.Pm7(1),this.Pm7(2),'ro','LineWidth',2','MarkerSize',5);
+      plot(fighandle,this.Pm1(1),this.Pm1(2),'ro','LineWidth',2','MarkerSize',5,'MarkerFaceColor','r');
+      plot(fighandle,this.Pm2(1),this.Pm2(2),'ro','LineWidth',2','MarkerSize',5,'MarkerFaceColor','r');
+      plot(fighandle,this.Pm3(1),this.Pm3(2),'ro','LineWidth',2','MarkerSize',5,'MarkerFaceColor','r');
+      plot(fighandle,this.Pm4(1),this.Pm4(2),'ro','LineWidth',2','MarkerSize',5,'MarkerFaceColor','r');
+      plot(fighandle,this.Pm5(1),this.Pm5(2),'ro','LineWidth',2','MarkerSize',5,'MarkerFaceColor','r');
+      plot(fighandle,this.Pm6(1),this.Pm6(2),'ro','LineWidth',2','MarkerSize',5,'MarkerFaceColor','r');
+      plot(fighandle,this.Pm7(1),this.Pm7(2),'ro','LineWidth',2','MarkerSize',5,'MarkerFaceColor','r');
       % plot start point
-      plot(fighandle,this.P0(1), this.P0(2), 'bo','LineWidth',2','MarkerSize',5);
+      plot(fighandle,this.P0(1), this.P0(2), 'bo','LineWidth',2','MarkerSize',5,'MarkerFaceColor','b');
       % plot final point
-      plot(fighandle,this.PT(1), this.PT(2), 'bo','LineWidth',2','MarkerSize',5);
+      plot(fighandle,this.PT(1), this.PT(2), 'bo','LineWidth',2','MarkerSize',5,'MarkerFaceColor','b');
       %
     end
     %

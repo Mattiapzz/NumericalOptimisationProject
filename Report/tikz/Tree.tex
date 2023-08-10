@@ -1,5 +1,5 @@
 
-\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt 
+\tikzset{every picture/.style={line width=0.5pt}} %set default line width to 0.75pt 
 
 % \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
 \begin{tikzpicture}[
@@ -22,8 +22,8 @@
 \node[draw,circle] (P22) at ( 0.0,-2) {$P_2$};
 \node[draw,circle] (P23) at (-3.0,-2) {$P_2$};
 
-\draw[blue] (P11) -- node[midway, right, shift={(+0.2cm,0)}] {$L_2$} (P21);
-\draw[green] (P12) -- (P22);
+\draw[dodgerblue] (P11) -- node[midway, right, shift={(+0.2cm,0)}] {$L_2$} (P21);
+\draw[springgreen] (P12) -- (P22);
 \draw[cyan] (P13) -- (P23);
 
 % Level 3
@@ -70,16 +70,16 @@
 \node[draw,circle,dashed] (P49) at (-4.0,-4) {$P_4$};
 %
 
-\draw[blue,dashed] (P31) -- node[midway, right, shift={(+0.2cm,0)}] {$L_4$} (P41);
-\draw[green] (P32) -- (P42);
+\draw[dodgerblue,dashed] (P31) -- node[midway, right, shift={(+0.2cm,0)}] {$L_4$} (P41);
+\draw[springgreen] (P32) -- (P42);
 \draw[cyan] (P33) -- (P43);
 %
-\draw[blue] (P34) -- (P44);
-\draw[green,dashed] (P35) -- (P45);
+\draw[dodgerblue] (P34) -- (P44);
+\draw[springgreen,dashed] (P35) -- (P45);
 \draw[cyan] (P36) -- (P46);
 %
-\draw[blue] (P37) -- (P47);
-\draw[green] (P38) -- (P48);
+\draw[dodgerblue] (P37) -- (P47);
+\draw[springgreen] (P38) -- (P48);
 \draw[cyan,dashed] (P39) -- (P49);
 %
 
@@ -165,28 +165,28 @@
 %
 
 %
-\draw[blue] (P51) -- node[midway, right, shift={(+0.2cm,0)}] {$L_6$} (P61);
-\draw[green,dashed] (P52) -- (P62);
+\draw[dodgerblue] (P51) -- node[midway, right, shift={(+0.2cm,0)}] {$L_6$} (P61);
+\draw[springgreen,dashed] (P52) -- (P62);
 \draw[cyan] (P53) -- (P63);
 %
-\draw[blue] (P54) -- (P64);
-\draw[green] (P55) -- (P65);
+\draw[dodgerblue] (P54) -- (P64);
+\draw[springgreen] (P55) -- (P65);
 \draw[cyan,dashed] (P56) -- (P66);
 %
-\draw[blue,dashed] (P57) -- (P67);
-\draw[green] (P58) -- (P68);
+\draw[dodgerblue,dashed] (P57) -- (P67);
+\draw[springgreen] (P58) -- (P68);
 \draw[cyan] (P59) -- (P69);
 %
-\draw[blue] (P510) -- (P610);
-\draw[green] (P511) -- (P611);
+\draw[dodgerblue] (P510) -- (P610);
+\draw[springgreen] (P511) -- (P611);
 \draw[cyan,dashed] (P512) -- (P612);
 %
-\draw[blue,dashed] (P513) -- (P613);
-\draw[green] (P514) -- (P614);
+\draw[dodgerblue,dashed] (P513) -- (P613);
+\draw[springgreen] (P514) -- (P614);
 \draw[cyan] (P515) -- (P615);
 %
-\draw[blue] (P516) -- (P616);
-\draw[green,dashed] (P517) -- (P617);
+\draw[dodgerblue] (P516) -- (P616);
+\draw[springgreen,dashed] (P517) -- (P617);
 \draw[cyan] (P518) -- (P618);
 %
 
@@ -245,8 +245,8 @@
 % draw a color legend at the corner of the tikz picture with line - name iside a transparent box with black borders
 \draw[dashed] (-5,-7.5)  -- (-4.5,-7.5) node[right] {Dead branch};
 \draw[red]    (-5,-8.0)  -- (-4.5,-8.0) node[right] {Clothoids};
-\draw[green]  (-5,-8.5)  -- (-4.5,-8.5) node[right] {Lines};
-\draw[blue]   (-5,-9.0)  -- (-4.5,-9.0) node[right] {Arcs $k_{max}$};
+\draw[springgreen]  (-5,-8.5)  -- (-4.5,-8.5) node[right] {Lines};
+\draw[dodgerblue]   (-5,-9.0)  -- (-4.5,-9.0) node[right] {Arcs $k_{max}$};
 \draw[cyan]   (-5,-9.5)  -- (-4.5,-9.5) node[right] {Arcs $k_{min}$};
 \draw[orange] (-5,-10.0)  -- (-4.5,-10.0) node[right] {Special cases};
 

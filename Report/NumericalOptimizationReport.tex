@@ -17,25 +17,29 @@
  
 \begin{document}
 \twocolumn[\maketitle ]
-
+%
 % \begin{multicols}{2}
-  
+ % 
 \section*{Introduction}
-
-The Dubins path is a well known problem in robotics and trajectory planning. The problem consists in finding the shortest path to connect two points in a plane with a prescribed heading (initial and final) with a maxim curvature constraint. This problem is suitable for mobile robots that are not omnidirectional. The solution can be derived analytically and is composed of a sequence of circular arcs and straight lines.\cite{shkel2001classification,chen2019shortest,jha2020shortest} The Dubins path is a special case of the Reeds-Shepp path\cite{duits2018optimal} where also backward motion is allowed.
-
+%
+The Dubins path is a well known problem in robotics and trajectory planning. The problem consists in finding the shortest path to connect two points in a plane with a prescribed heading (initial and final) with a maxim curvature constraint. This problem is suitable for mobile robots that are not omnidirectional. The solution can be derived analytically and is composed of a sequence of circular arcs and straight lines.\cite{shkel2001classification,chen2019shortest,jha2020shortest} The Dubins path is a special case of the Reeds-Shepp path\cite{duits2018optimal} where also backward motion is allowed.\\
+However, the Dubins path is not suitable for vehicles that have a limited steering rate. In this case, the curvature of the path cannot change instantaneously.\\
+Duboids is the proposed suboptimal solution to account for limits in curvature rate and therefore in steering rate of a vehicle. Duboids is a combination of Dubins path and clothoids. 
+%
+\subsection*{Dubins}
 The problem can be stated as follows:
 %
 \begin{equation}
   \begin{split}
-    &\min \int_0^T v \differential t = \min v T \\ % \min_{|\kappa|\le\kappa_{max}}
-    &\dot{x}(t)      = v \cos(\theta(t)) \\
-    &\dot{y}(t)      = v \sin(\theta(t)) \\
-    &\dot{\theta}(t) = v \kappa(t)       \\
-    &x(0)      = x_0,      \; x(T)      = x_T\\
-    &y(0)      = y_0,      \; y(T)      = y_T\\
-    &\theta(0) = \theta_0, \; \theta(T) = \theta_T\\
-    &-\kappa_{max} \le \kappa(t) \le \kappa_{max}   
+    \min_{\kappa}  \quad & \int_0^T v \differential t = \min_{\kappa}  \quad v T \\ % \min_{|\kappa|\le\kappa_{max}}
+    \text{s.t.} \quad 
+      &\dot{x}(t)      = v \cos(\theta(t)) \\
+      &\dot{y}(t)      = v \sin(\theta(t)) \\
+      &\dot{\theta}(t) = v \kappa(t)       \\
+      &x(0)      = x_0,      \; x(T)      = x_T\\
+      &y(0)      = y_0,      \; y(T)      = y_T\\
+      &\theta(0) = \theta_0, \; \theta(T) = \theta_T\\
+      &-\kappa_{max} \le \kappa(t) \le \kappa_{max}   
   \end{split}
 \end{equation}
 %
@@ -50,17 +54,18 @@ The problem we want to solve is to minimize the time while connecting two points
 %
 \begin{equation}
   \begin{split}
-    &\min v T \\ 
-    &\dot{x}(t)      = v \cos(\theta(t)) \\
-    &\dot{y}(t)      = v \sin(\theta(t)) \\
-    &\dot{\theta}(t) = v \kappa(t)       \\
-    &\dot{\kappa}(t) = J(t)              \\
-    &x(0)      = x_0,      \; x(T)      = x_T     \\
-    &y(0)      = y_0,      \; y(T)      = y_T     \\
-    &\theta(0) = \theta_0, \; \theta(T) = \theta_T\\
-    &\kappa(0) = \kappa_0, \; \kappa(T) = \kappa_T\\
-    &-\kappa_{max} \le \kappa(t) \le \kappa_{max} \\
-    &-J_{max} \le J(t) \le J_{max}
+    \min_{J} \quad & v T \\ 
+    \text{s.t.} \quad
+      &\dot{x}(t)      = v \cos(\theta(t)) \\
+      &\dot{y}(t)      = v \sin(\theta(t)) \\
+      &\dot{\theta}(t) = v \kappa(t)       \\
+      &\dot{\kappa}(t) = J(t)              \\
+      &x(0)      = x_0,      \; x(T)      = x_T     \\
+      &y(0)      = y_0,      \; y(T)      = y_T     \\
+      &\theta(0) = \theta_0, \; \theta(T) = \theta_T\\
+      &\kappa(0) = \kappa_0, \; \kappa(T) = \kappa_T\\
+      &-\kappa_{max} \le \kappa(t) \le \kappa_{max} \\
+      &-J_{max} \le J(t) \le J_{max}
   \end{split}
 \end{equation}
 %
@@ -76,7 +81,8 @@ The Hemiltonian function of the problem is:
   \begin{split}
     H = &\lambda_1(t) v \cos(\theta(t)) + \lambda_2(t) v \sin(\theta(t)) \\
         &+ \lambda_3(t) v \kappa(t) + \lambda_4(t) J(t)\\
-        &+ \mu_1(t) (\kappa(t)-\kappa_{max}) + \mu_2(t) (-\kappa(t)+\kappa_{max})
+        &+ \mu_1(t) (\kappa(t)-\kappa_{max}) \\ 
+        &+ \mu_2(t) (-\kappa(t)+\kappa_{max})
   \end{split}
 \end{equation}
 %
@@ -109,22 +115,24 @@ However, $H$ is linear in $J$, thus the second derivative with respect to the co
 \end{equation}
 %
 \subsection*{Physical interpretation}
-
+%
 The physical interpretation is that the vehicle is either changing the curvature at maximum rate, or keeping the curvature constant.
 The only case when the curvature is kept constant is when the vehicle is travelling straight or when it is travelling at maximum curvature.
-Thus, the problem can be treated as a mixed integer optimization that in general is NP-hard.
+Thus, the problem can be treated as a mixed integer optimization that in general is NP-hard.\\
 %
 Figure \ref{fig:possiblecombination} illustrates all the possible combination of maneuvers connecting point $P_0$ and $P_T$. All intermediate points (at most $7$) are switching point between clothoids and circular arcs or straight lines. From the starting point (and configuration) the vehicle can either steer toward maximum, minimum or zero curvature. If point $P_0$ already satisfy a bound the arc of clothoid $L_1$ is not necessary and will have zero length.
-There are some useless connection such as the repetition of two straight line or two arcs with same curvature which are accounted as special case connecting directly the point to the final configuration.
-\\
-Figure \ref{fig:possiblecombination} represents in fact a graph connecting the initial and final configuration with all the possible combination of maneuvers. The problem could be solved with a graph search algorithm. However, the number of possible path inside the graph is not high and know at priory. Thus, a naive exploration of all the possible combination is feasible.
-\\
-From figure \ref{fig:possiblecombination}, we can count $12$ 7 arcs connections with a strange familiar resemblance to the Dubins path. In addition to that there are $3$ 3-arcs connections and $6$ 5-arcs connections. The total number of possible combination is $21$ as shown in table \ref{tab:possiblecombination}.
+There are some useless connection such as the repetition of two straight line or two arcs with same curvature which are accounted as special case connecting directly the point to the final configuration.\\
+%
+Figure \ref{fig:possiblecombination} represents in fact a graph connecting the initial and final configuration with all the possible combination of maneuvers. The problem could be solved with a graph search algorithm. However, the number of possible path inside the graph is not high and know at priory. Thus, a naive exploration of all the possible combination is feasible.\\
+%
+From figure \ref{fig:possiblecombination}, we can count $12$ possible $7$-arcs connections with a strange familiar resemblance to the Dubins path. In addition, $3$ are the $3$-arcs connections and $6$ are the $5$-arcs connections. The total number of possible combination is $21$ as shown in table \ref{tab:possiblecombination}.\\
+%
+However, we are neglecting the possibility that, for some configuration of initial and final point the vehicle could perform maneuvers not reaching the maximum curvature values. This, will need a separate analysis when it comes to the naive exploration.  
 %
 \begin{figure}[ht]
   \centering
-  \resizebox{\linewidth}{!}{%
-    \input{Tree.tex}%
+  \resizebox{1.1\linewidth}{!}{%
+    \input{tikz/Tree.tex}%
   }%
   % \include{Tree.tex}
   \caption{Possible Combination}
@@ -160,22 +168,107 @@ From figure \ref{fig:possiblecombination}, we can count $12$ 7 arcs connections 
   21 & $R$ & $S$ & $-$  \\
   \hline
   \end{tabular}
-  \caption{Possible combination}
+  \caption{Possible combination.\\ $L$ = Left arc, $R$ = Right arc,\\$S$ = Straight line, $-$ = none}
   \label{tab:possiblecombination}
 \end{table}
 %
 \section*{Numeric solution}
-
+%
 The problem was tackled with two numerical approaches. The first writing the problem as an Optimal Control Problem (OCP) and solving it with the indirect direct method and constraints formulated as penalization with PINS (PINS Is Not a Solver)\cite{biral2016notes}. The second approach was a naive exploration of all the possible maneuver combination to solve the problem.
-
+%
 \subsection*{PINS}
+%
+The problem was developed and solved using PINS to analyze the numerical solution of the optimal control problem and to have a reference solution to compare the naive exploration of all the possible combination of maneuvers.
+\subsubsection*{Numerical Results}
 
-TO BE DESCRIBED WITH SOME GRAPHS. NEED TO COMPILE THE MEX.
 
-\subsection*{MATLAB exploration of possible paths}
 
+%
+%%%%%%%%%%%%%
+%%%%%%%%%%%%
+%
+\subsection*{Duboids MATLAB implementation and exploration}
+%
 The problem can be solved with a naive exploration of all the possible combination of maneuvers. In fact, all possible connection are a combination of the simple elementary Dubins connected by segments with linearly varying curvature also known as clothoids.\cite{bertolazzi2015g1}\\
 An analysis done by hand and the of the numerical solution using PINS suggest, that there are at most $7$ connection between two points. With $3$ arcs at constant curvature and $4$ arcs that connect all the arcs. Moreover, from figure \ref{fig:possiblecombination} and table \ref{tab:possiblecombination} we can see that there are $21$ possible combination of maneuvers.\\
+As stated before, this approach do not account for combination of maneuvers not reaching the maximum curvature values. This is a limitation of the approach that can be overcome with a more complex exploration of the possible combination. However, the achieved algorithm yields a valid suboptimal solution.
+%
+\subsubsection*{Algorithm structure}
+%
+The algorithm was implemented in MATLAB. The implementation is divided in two main parts. The first part is a class that act as a collector for all the possible combination of maneuvers generated. This class will determine if a connection of a certain type is suitable/feasible for the specific initial and final point. The second part is a class for the single Duboid maneuver. Given the topology (shape) of the maneuver as in table \ref{tab:possiblecombination} the class will generate the maneuver matching if possible the boundary conditions and compute the length of the maneuver.\\
+The first class will store a list of all feasible candidate-to-be-best maneuver and select the best one according to the minimum-time/minimum length criteria.
+%
+\subsubsection*{Arch length computation}
+The Duboids lacks of a closed form solution at this stage of the development therefore the length of the maneuver is computed with a numerical optimization using \textit{fmincon} function of MATLAB.\\
+The constraint on the final curvature is already satisfied by the definition of the problem. However, coordinate and orientation of the final point depends on the choice of the maneuver and length of segment $2$, $4$ and $6$.
+In general, $P_7$ the "final" point do not coincide with $P_T$. Thus, we should compute a suitable triplet of length for the segment $L_2$, $L_4$ and $L_6$. To satisfy this constraint we can minimize a function cost such as:
+%
+\begin{equation}
+  \label{eq:costfunction}
+  \begin{split}
+    \min_{L_2,L_4,L_6} \quad & (x_7-x_T)^2 + (y_7-y_T)^2 + (\theta_7-\theta_T)^2\\
+    \text{s.t.} \quad & [x_7,y_7,\theta_7] = \mathrm{Duboid}(L_1,L_2,L_3)\\
+    & 0 \leq L_2 \leq L_{2,max}\\
+    & 0 \leq L_4 \leq L_{4,max}\\
+    & 0 \leq L_6 \leq L_{6,max}
+  \end{split}
+\end{equation}
+%
+where $L_{2,max}$, $L_{4,max}$ and $L_{6,max}$ are the maximum length of the segments $L_2$, $L_4$ and $L_6$ respectively. For circular arcs the maximum length is a full circle with radius $R_{max}=1/\kappa_{max}$. For the straight line the maximum length is not trivial, however we can safely find a reasonable upper bound for our application (i.e. 10 times the distance between initial and final point).
+%
+\subsubsection*{Duboids results}
+%
+In this section we can see some of the results obtained with the Duboids algorithm. The results are shown in figures \ref{fig:DuboidsRes0}, \ref{fig:DuboidsRes1}, \ref{fig:DuboidsRes2}, \ref{fig:DuboidsRes3} and \ref{fig:DuboidsRes4}.\\
+The first figure (Figure \ref{fig:DuboidsRes0}) shows results obtained with initial condition set to zero for position, heading and curvature. The final condition is set to $x = 40$, $y=20$, $\theta=0$ and $\kappa=0$.\\
+%
+\begin{figure}[ht]
+  \centering
+  \include{tikz/Duboids0.tex}%
+  \caption{Duboids solution example 1}
+  \label{fig:DuboidsRes0}
+\end{figure}
+%
+The second example is a trivial connection with a straight line (Figure \ref{fig:DuboidsRes1}).\\
+%
+\begin{figure}[ht]
+  \centering
+  \include{tikz/Duboids1.tex}%
+  \caption{Duboids solution example 2}
+  \label{fig:DuboidsRes1}
+\end{figure}
+%
+The third example (Figure \ref{fig:DuboidsRes2}) shows a connection from $x=0$, $y=0$, $\theta=0$ and $\kappa=0$ to $x=-1$, $y=0$, $\theta=0$ and $\kappa=0$ obtaining a fancy shape given the constraints on curvature and jerk.\\
+%
+\begin{figure}[ht]
+  \centering
+  \include{tikz/Duboids2.tex}%
+  \caption{Duboids solution example 3}
+  \label{fig:DuboidsRes2}
+\end{figure}
+%
+The fourth example (Figure \ref{fig:DuboidsRes3}) shows a connection from $x=0$, $y=0$, $\theta=0$ and $\kappa=0$ to $x=0$, $y=0$, $\theta=\pi$ and $\kappa=0$ obtaining a water drop like shape.\\
+%
+\begin{figure}[ht]
+  \centering
+  \include{tikz/Duboids3.tex}%
+  \caption{Duboids solution example 4}
+  \label{fig:DuboidsRes3}
+\end{figure}
+%
+The fifth example (Figure \ref{fig:DuboidsRes4}) shows a connection from $x=0$, $y=0$, $\theta=0$ and $\kappa=0$ to $x=0$, $y=0$, $\theta=\pi/2$ and $\kappa=0$ obtaining a convoluted form.\\
+%
+\begin{figure}[ht]
+  \centering
+  \include{tikz/Duboids4.tex}%
+  \caption{Duboids solution example 5}
+  \label{fig:DuboidsRes4}
+\end{figure}
+%
+
+\section*{Compare PINS and Duboids}
+
+\section*{Conclusions}
+
 
 
 
