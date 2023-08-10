@@ -112,9 +112,15 @@ However, $H$ is linear in $J$, thus the second derivative with respect to the co
 
 The physical interpretation is that the vehicle is either changing the curvature at maximum rate, or keeping the curvature constant.
 The only case when the curvature is kept constant is when the vehicle is travelling straight or when it is travelling at maximum curvature.
-Thu, the problem can be treated as a mixed integer optimization that in general is NP-hard.
-
-
+Thus, the problem can be treated as a mixed integer optimization that in general is NP-hard.
+%
+Figure \ref{fig:possiblecombination} illustrates all the possible combination of maneuvers connecting point $P_0$ and $P_T$. All intermediate points (at most $7$) are switching point between clothoids and circular arcs or straight lines. From the starting point (and configuration) the vehicle can either steer toward maximum, minimum or zero curvature. If point $P_0$ already satisfy a bound the arc of clothoid $L_1$ is not necessary and will have zero length.
+There are some useless connection such as the repetition of two straight line or two arcs with same curvature which are accounted as special case connecting directly the point to the final configuration.
+\\
+Figure \ref{fig:possiblecombination} represents in fact a graph connecting the initial and final configuration with all the possible combination of maneuvers. The problem could be solved with a graph search algorithm. However, the number of possible path inside the graph is not high and know at priory. Thus, a naive exploration of all the possible combination is feasible.
+\\
+From figure \ref{fig:possiblecombination}, we can count $12$ 7 arcs connections with a strange familiar resemblance to the Dubins path. In addition to that there are $3$ 3-arcs connections and $6$ 5-arcs connections. The total number of possible combination is $21$ as shown in table \ref{tab:possiblecombination}.
+%
 \begin{figure}[ht]
   \centering
   \resizebox{\linewidth}{!}{%
@@ -124,8 +130,40 @@ Thu, the problem can be treated as a mixed integer optimization that in general 
   \caption{Possible Combination}
   \label{fig:possiblecombination}
 \end{figure}
-
-
+%
+\begin{table}[ht]
+  \centering
+  \begin{tabular}{c|c|c|c}
+  \hline
+  \textbf{\#} & \textbf{$L_2$} & \textbf{$L_4$} & \textbf{$L_6$} \\
+  \hline
+  1 & $L$ & $S$ & $L$  \\
+  2 & $L$ & $S$ & $R$  \\
+  3 & $L$ & $R$ & $L$  \\
+  4 & $L$ & $R$ & $S$  \\
+  5 & $S$ & $L$ & $S$  \\
+  6 & $S$ & $L$ & $R$  \\
+  7 & $S$ & $R$ & $L$  \\
+  8 & $S$ & $R$ & $S$  \\
+  9 & $R$ & $L$ & $S$  \\
+  10 & $R$ & $L$ & $R$  \\
+  11 & $R$ & $S$ & $L$  \\
+  12 & $R$ & $S$ & $R$  \\
+  13 & $L$ & $-$ & $-$  \\
+  14 & $S$ & $-$ & $-$  \\
+  15 & $R$ & $-$ & $-$  \\
+  16 & $L$ & $S$ & $-$  \\
+  17 & $L$ & $R$ & $-$  \\
+  18 & $S$ & $L$ & $-$  \\
+  19 & $S$ & $R$ & $-$  \\
+  20 & $R$ & $L$ & $-$  \\
+  21 & $R$ & $S$ & $-$  \\
+  \hline
+  \end{tabular}
+  \caption{Possible combination}
+  \label{tab:possiblecombination}
+\end{table}
+%
 \section*{Numeric solution}
 
 The problem was tackled with two numerical approaches. The first writing the problem as an Optimal Control Problem (OCP) and solving it with the indirect direct method and constraints formulated as penalization with PINS (PINS Is Not a Solver)\cite{biral2016notes}. The second approach was a naive exploration of all the possible maneuver combination to solve the problem.
@@ -137,7 +175,7 @@ TO BE DESCRIBED WITH SOME GRAPHS. NEED TO COMPILE THE MEX.
 \subsection*{MATLAB exploration of possible paths}
 
 The problem can be solved with a naive exploration of all the possible combination of maneuvers. In fact, all possible connection are a combination of the simple elementary Dubins connected by segments with linearly varying curvature also known as clothoids.\cite{bertolazzi2015g1}\\
-An analysis done by hand and the of the numerical solution using PINS suggest, that there are at most $7$ connection between two points. With $3$ arcs at constant curvature and $4$ arcs that connect all the arcs.\\
+An analysis done by hand and the of the numerical solution using PINS suggest, that there are at most $7$ connection between two points. With $3$ arcs at constant curvature and $4$ arcs that connect all the arcs. Moreover, from figure \ref{fig:possiblecombination} and table \ref{tab:possiblecombination} we can see that there are $21$ possible combination of maneuvers.\\
 
 
 

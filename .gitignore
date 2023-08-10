@@ -46,3 +46,9 @@ dumps
 *.app
 *.sav
 *.bak
+
+*/*.aux
+*/*.log
+*/*.synctex.gz
+
+Report/*.pdf
