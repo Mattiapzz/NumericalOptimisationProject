@@ -1,7 +1,7 @@
 function [solution,ocp] = compute_Duboids_PINS(data_struct)
 
-  mex_dir  = '../Problems/DubinsJerk/generated_code/ocp-interfaces/Matlab/';
-  data_dir = '../Problems/DubinsJerk/generated_code/data/';
+  mex_dir  = '../OCP_Problems/DubinsJerk/generated_code/ocp-interfaces/Matlab/';
+  data_dir = '../OCP_Problems/DubinsJerk/generated_code/data/';
   
   addpath(mex_dir);
 

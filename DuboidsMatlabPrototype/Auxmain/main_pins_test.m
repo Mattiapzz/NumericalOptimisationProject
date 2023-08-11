@@ -7,9 +7,9 @@ setup();
 
 fprintf("TEST - PINS Dubinoids \n")
 
-mex_dir  = '../Problems/DubinsJerk/generated_code/ocp-interfaces/Matlab/';
-data_dir = '../Problems/DubinsJerk/generated_code/data/';
-src_dir  = '../Problems/DubinsJerk/generated_code/';
+mex_dir  = '../OCP_Problems/DubinsJerk/generated_code/ocp-interfaces/Matlab/';
+data_dir = '../OCP_Problems/DubinsJerk/generated_code/data/';
+src_dir  = '../OCP_Problems/DubinsJerk/generated_code/';
 
 addpath(mex_dir),
 

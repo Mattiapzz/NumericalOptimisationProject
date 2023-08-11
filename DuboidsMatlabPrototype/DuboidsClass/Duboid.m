@@ -485,6 +485,13 @@ classdef Duboid < handle
     function y = eval_y(this,SS)
       y = this.Clist.y(SS);
     end
+    %
+  end
+  %
+  methods(Hidden, Access = public)
+   function obj = delete(varargin)
+    obj = delete@handle(varargin{:});
+   end
   end
   %
 end
