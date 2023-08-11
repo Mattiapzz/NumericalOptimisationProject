@@ -1,0 +1,54 @@
+This is BibTeX, Version 0.99d (TeX Live 2023)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: NumericalOptimizationReport.aux
+A level-1 auxiliary file: tikz/PINS_Traj.aux
+A level-1 auxiliary file: tikz/PINS_Kappa.aux
+A level-1 auxiliary file: tikz/PINS_Jerk.aux
+A level-1 auxiliary file: tikz/Duboids0.aux
+A level-1 auxiliary file: tikz/Duboids1.aux
+A level-1 auxiliary file: tikz/Duboids2.aux
+A level-1 auxiliary file: tikz/Duboids3.aux
+A level-1 auxiliary file: tikz/Duboids4.aux
+The style file: ieeetr.bst
+Database file #1: Bibliography.bib
+You've used 8 entries,
+            1876 wiz_defined-function locations,
+            539 strings with 5071 characters,
+and the built_in function-call counts, 2493 in all, are:
+= -- 265
+> -- 85
+< -- 0
++ -- 31
+- -- 23
+* -- 174
+:= -- 345
+add.period$ -- 8
+call.type$ -- 8
+change.case$ -- 8
+chr.to.int$ -- 0
+cite$ -- 8
+duplicate$ -- 130
+empty$ -- 219
+format.name$ -- 23
+if$ -- 613
+int.to.chr$ -- 0
+int.to.str$ -- 8
+missing$ -- 8
+newline$ -- 27
+num.names$ -- 8
+pop$ -- 15
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 104
+stack$ -- 0
+substring$ -- 196
+swap$ -- 66
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 0
+while$ -- 27
+width$ -- 9
+write$ -- 84

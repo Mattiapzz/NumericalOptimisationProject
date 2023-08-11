@@ -1,4 +1,4 @@
-classdef Dubinoid < handle
+classdef Duboid < handle
   % Dubinoid class to compute a ax extended dubins with clothoids
   properties
     Clist;                    % clothoidlist to append all the 7 or less segments
@@ -29,7 +29,7 @@ classdef Dubinoid < handle
   end
   methods
     % Constructor
-    function this = Dubinoid(P0,PT,TYPE,J_max,K_max,V)
+    function this = Duboid(P0,PT,TYPE,J_max,K_max,V)
     % Dubinoid constructor to compute a ax extended dubins with clothoids
     %  P0   = starting point
     %  PT   = ending point
@@ -87,25 +87,6 @@ classdef Dubinoid < handle
         this.ok_flag = true;
       end
     end
-    %
-    % function [L2,L4,L6] = optimize_L2L4L6(this,La,Lb,Lc)
-    %   % optimize_L2L4L6 compute the optimal length of the 3 segments with constant curvature (straigth or arcs)
-    %   z0      = [La,Lb,Lc];
-    %   fun     = @(x)this.cost(x(1),x(2),x(3));
-    %   lb      = [0,0,0];
-    %   ub      = this.get_upper_bound();
-    %   A       = [];
-    %   b       = [];
-    %   Aeq     = [];
-    %   beq     = [];
-    %   options = optimoptions('fmincon');
-    %   options.OptimalityTolerance = 1e-10;
-    %   options.StepTolerance       = 1e-10;
-    %   options.MaxIterations       = 10000;
-    %   options.Display             = 'off'; % 'iter-detailed';
-    %   z = fmincon(fun,z0,A,b,Aeq,beq,lb,ub,[],options);
-    %   [L2,L4,L6] = deal(z);
-    % end
     %
     function UB = get_upper_bound(this)
       UB = [1,1,1];
@@ -398,7 +379,6 @@ classdef Dubinoid < handle
     end
     %
     function fighandle = plot(this,varargin)
-      fighandle = [];
       if nargin > 1
         fighandle = varargin{1};
       else
@@ -451,6 +431,59 @@ classdef Dubinoid < handle
       SS = (0:0.01:1) * (SF-SI)+SI;
       [XTMP,YTMP] = this.Clist.eval(SS);
       plot(fighandle,XTMP,YTMP,varargin{:});
+    end
+    %
+    function fighandle = plot_std(this,varargin)
+      if nargin > 1
+        fighandle = varargin{1};
+      else
+        figure();
+        fighandle = gca;
+      end
+      hold on;
+      axis equal;
+      % add xlabel and ylabel
+      xlabel('x(m)');
+      ylabel('y(m)');
+      % add title usign k_max and J_max information + type and total length
+      title(['$L_{tot}$ = ', num2str(this.L) , ', $k_{max}$ = ',num2str(this.K_max),', $J_{max}$ = ',num2str(this.J_max), ', Type = [',this.TYPE , ']']);
+      % add grid and minor grid
+      grid on;
+      grid minor;
+      % 
+      SS0 = 0;
+      SS7 = this.L;
+      %
+      if nargin > 2
+        this.plot_interval(fighandle, SS0, SS7,varargin{2:end});
+      else
+        this.plot_interval(fighandle, SS0, SS7,'r-','LineWidth',2);
+      end
+      % plot start point
+      plot(fighandle,this.P0(1), this.P0(2), 'bo','LineWidth',2','MarkerSize',5,'MarkerFaceColor','b','HandleVisibility','off');
+      % plot final point
+      plot(fighandle,this.PT(1), this.PT(2), 'bo','LineWidth',2','MarkerSize',5,'MarkerFaceColor','b','HandleVisibility','off');
+      %
+    end
+    %
+    function kappa = eval_kappa(this,SS)
+      kappa = this.Clist.kappa(SS);
+    end
+    %
+    function theta = eval_theta(this,SS)
+      theta = this.Clist.theta(SS);
+    end
+    %
+    function J = eval_J(this,SS)
+      J = this.Clist.kappa_D(SS);
+    end
+    %
+    function x = eval_x(this,SS)
+      x = this.Clist.x(SS);
+    end
+    %
+    function y = eval_y(this,SS)
+      y = this.Clist.y(SS);
     end
   end
   %

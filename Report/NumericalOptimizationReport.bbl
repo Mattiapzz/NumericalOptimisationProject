@@ -21,4 +21,7 @@ E.~Bertolazzi, P.~Bevilacqua, M.~Frego, {\em et~al.}, ``Clothoids: a c++ library
 \bibitem{biral2016notes}
 F.~Biral, E.~Bertolazzi, and P.~Bosetti, ``Notes on numerical methods for solving optimal control problems,'' {\em IEEJ Journal of Industry Applications}, vol.~5, no.~2, pp.~154--166, 2016.
 
+\bibitem{zhu2015planar}
+J.~Zhu, E.~Tr{\'e}lat, and M.~Cerf, ``Planar tilting maneuver of a spacecraft: singular arcs in the minimum time problem and chattering,'' {\em arXiv preprint arXiv:1504.06219}, 2015.
+
 \end{thebibliography}

@@ -1,4 +1,4 @@
-classdef DubinoidCollector < handle
+classdef DuboidCollector < handle
   properties
     DS =[];
     idx_best = -1;
@@ -33,7 +33,7 @@ classdef DubinoidCollector < handle
             ['L','S','0']};
   end
   methods
-    function this = DubinoidCollector(P0,PT,J_max,K_max,V)
+    function this = DuboidCollector(P0,PT,J_max,K_max,V)
       this.P0    = P0;
       this.PT    = PT;
       this.J_max = J_max;      
@@ -41,7 +41,7 @@ classdef DubinoidCollector < handle
       this.V     = V;
       %
       for i=1:length(this.comb)
-        this.DS = [this.DS;Dubinoid(P0,PT,this.comb{i},J_max,K_max,V)];
+        this.DS = [this.DS;Duboid(P0,PT,this.comb{i},J_max,K_max,V)];
       end
     end
     %
@@ -52,9 +52,9 @@ classdef DubinoidCollector < handle
         if (this.DS(i).L < this.L_best && this.DS(i).ok_flag == true)
           this.L_best = this.DS(i).L;
           this.idx_best = i;
-          this.D_best = Dubinoid(this.P0,this.PT,this.comb{i},this.J_max,this.K_max,this.V); 
+          this.D_best = Duboid(this.P0,this.PT,this.comb{i},this.J_max,this.K_max,this.V); 
           this.D_best.compute_L(this.DS(i).L2,this.DS(i).L4,this.DS(i).L6);
-          this.D_best_candidates = [this.D_best_candidates; Dubinoid(this.P0,this.PT,this.comb{i},this.J_max,this.K_max,this.V) ];
+          this.D_best_candidates = [this.D_best_candidates; Duboid(this.P0,this.PT,this.comb{i},this.J_max,this.K_max,this.V) ];
           this.D_best_candidates(end).compute_L(this.DS(i).L2,this.DS(i).L4,this.DS(i).L6);
         end
       end
@@ -88,6 +88,36 @@ classdef DubinoidCollector < handle
         fprintf("No suitable combination found to solve the problem within the tolerance\n");
       end
     end
+    %
+    function fighandle = plot_best_std(this,varargin)
+      if this.idx_best > 0
+        fighandle = this.D_best.plot_std(varargin{:});
+      else
+        fighandle = [];
+        fprintf("No suitable combination found to solve the problem within the tolerance\n");
+      end
+    end
+    %
+    function kappa = eval_kappa_best(this,SS)
+      kappa = this.D_best.eval_kappa(SS);
+    end
+    %
+    function J = eval_J_best(this,SS)
+      J = this.D_best.eval_J(SS);
+    end
+    %
+    function theta = eval_theta_best(this,SS)
+      theta = this.D_best.eval_theta(SS);
+    end
+    %
+    function x = eval_x_best(this,SS)
+      x = this.D_best.eval_x(SS);
+    end
+    %
+    function y = eval_y_best(this,SS)
+      y = this.D_best.eval_y(SS);
+    end
+    %
   end
 
 end

@@ -1,5 +1,5 @@
 \documentclass[11pt,twocolumn]{scrartcl}
-
+%
 \include{setup.tex}
 \usepackage{siunitx}
 \usepackage{graphicx}
@@ -9,22 +9,20 @@
 
 \makeatother
 
-
 \title{Report of Course Numerical Optimization}
 \subtitle{Duboids: Extended Dubins path with Clothoids Junctions}
 \author{Mattia Piazza}
 \date{\today}
  
 \begin{document}
+%
 \twocolumn[\maketitle ]
 %
-% \begin{multicols}{2}
- % 
 \section*{Introduction}
 %
-The Dubins path is a well known problem in robotics and trajectory planning. The problem consists in finding the shortest path to connect two points in a plane with a prescribed heading (initial and final) with a maxim curvature constraint. This problem is suitable for mobile robots that are not omnidirectional. The solution can be derived analytically and is composed of a sequence of circular arcs and straight lines.\cite{shkel2001classification,chen2019shortest,jha2020shortest} The Dubins path is a special case of the Reeds-Shepp path\cite{duits2018optimal} where also backward motion is allowed.\\
+The Dubins path is a well-known problem in robotics and trajectory planning. The problem consists in finding the shortest path to connect two points in a plane with a prescribed heading (initial and final) with a maxim curvature constraint. This problem is suitable for mobile robots that are not omnidirectional. The solution can be derived analytically and is composed of a sequence of circular arcs and straight lines.\cite{shkel2001classification,chen2019shortest,jha2020shortest} The Dubins path is a special case of the Reeds-Shepp path\cite{duits2018optimal} where also backward motion is allowed.\\
 However, the Dubins path is not suitable for vehicles that have a limited steering rate. In this case, the curvature of the path cannot change instantaneously.\\
-Duboids is the proposed suboptimal solution to account for limits in curvature rate and therefore in steering rate of a vehicle. Duboids is a combination of Dubins path and clothoids. 
+Duboids are the proposed suboptimal solution to account for limits in curvature rate and therefore in the steering rate of a vehicle. Duboids are a combination of Dubins path and clothoids. 
 %
 \subsection*{Dubins}
 The problem can be stated as follows:
@@ -44,13 +42,13 @@ The problem can be stated as follows:
 \end{equation}
 %
 Where $v$ is a fixed velocity, $x$, $y$ and $\theta$ are the position and heading of the vehicle, $\kappa$ is the curvature of the path and $\kappa_{max}$ is the maximum curvature allowed. 
-The analytic solution to this problem is at most a sequence of 3 arcs, either left of right circular arcs at maximum curvature or straight lines.\cite{shkel2001classification}\\
+The analytic solution to this problem is at most a sequence of 3 arcs, either left or right circular arcs at maximum curvature or straight lines.\cite{shkel2001classification}\\
 %
-This problem and its solution can be applied in vehicle moving slowly and where the curvature change is almost instantaneous. However, real vehicles have a physical limit in the maximum curvature and maximum curvature rate. For this reason, we are looking to an extension of the Dubins path to incorporate this limitation as we will see in the next section exploiting clothoids.\cite{bertolazzi2015g1,bertolazzi2018clothoids}
+This problem and its solution can be applied in vehicles moving slowly and where the curvature change is almost instantaneous. However, real vehicles have a physical limit in the maximum curvature and maximum curvature rate. For this reason, we are looking to an extension of the Dubins path to incorporate this limitation as we will see in the next section exploiting clothoids.\cite{bertolazzi2015g1,bertolazzi2018clothoids}
 %
 \section*{Problem}
 %
-The problem we want to solve is to minimize the time while connecting two points in the Cartesian space with a prescribed heading and curvature both at initial and final time. This problem can be formulated in the following way:
+The problem we want to solve is to minimize the time while connecting two points in the Cartesian space with a prescribed heading and curvature both at the initial and final time. This problem can be formulated in the following way:
 %
 \begin{equation}
   \begin{split}
@@ -71,11 +69,11 @@ The problem we want to solve is to minimize the time while connecting two points
 %
 Where $v$ is a fixed velocity, $x$, $y$ and $\theta$ are the position and heading of the vehicle, $\kappa$ is the curvature of the path, $\kappa_{max}$ is the maximum curvature allowed, $J$ is the controlled curvature rate (Jerk) and $J_{max}$ is the maximum curvature rate allowed.\\
 %
-This problem can be translated into a BVP (Boundary Value Problem) and solved in a semi-analitycal fashion. In fact, the solution is composed of several arcs either at maximum rate (positive or negative or at zero rate). 
+This problem can be translated into a BVP (Boundary Value Problem) and solved in a semi-analytical fashion. The solution is composed of several arcs either at the maximum rate (positive or negative or at zero rate). 
 %
 \subsection*{Analytic solution}
 %
-The Hemiltonian function of the problem is:
+The Hamiltonian function of the problem is:
 %
 \begin{equation}
   \begin{split}
@@ -97,14 +95,14 @@ The costate equations are:
   \end{split}
 \end{equation}
 %
-Which yield that $\lambda_1$ and $\lambda_2$ are constant.\\
+Which yields that $\lambda_1$ and $\lambda_2$ are constant.\\
 Moreover, the control is
 %
 \begin{equation}
   J(t) = \underset{ J \in [-J_{max},J_{max}]}{ \textrm{argmin} } \; H 
 \end{equation}
 %
-However, $H$ is linear in $J$, thus the second derivative with respect to the control is null, and the problem became singular. In the case of a singular arc, the control is either at the maximum or minimum of the control set or at zero.
+However, $H$ is linear in $J$, thus the second derivative concerning the control is null, and the problem became singular. In the case of a singular arc, the control is either at the maximum or minimum of the control set or at zero.
 %
 \begin{equation}
   J(t) = \begin{cases}
@@ -116,18 +114,18 @@ However, $H$ is linear in $J$, thus the second derivative with respect to the co
 %
 \subsection*{Physical interpretation}
 %
-The physical interpretation is that the vehicle is either changing the curvature at maximum rate, or keeping the curvature constant.
+The physical interpretation is that the vehicle is either changing the curvature at the maximum rate or keeping the curvature constant.
 The only case when the curvature is kept constant is when the vehicle is travelling straight or when it is travelling at maximum curvature.
 Thus, the problem can be treated as a mixed integer optimization that in general is NP-hard.\\
 %
-Figure \ref{fig:possiblecombination} illustrates all the possible combination of maneuvers connecting point $P_0$ and $P_T$. All intermediate points (at most $7$) are switching point between clothoids and circular arcs or straight lines. From the starting point (and configuration) the vehicle can either steer toward maximum, minimum or zero curvature. If point $P_0$ already satisfy a bound the arc of clothoid $L_1$ is not necessary and will have zero length.
-There are some useless connection such as the repetition of two straight line or two arcs with same curvature which are accounted as special case connecting directly the point to the final configuration.\\
+Figure \ref{fig:possiblecombination} illustrates all the possible combinations of manoeuvres connecting point $P_0$ and $P_T$. All intermediate points (at most $7$) are switching points between clothoid and circular arcs or straight lines. From the starting point (and configuration) the vehicle can either steer toward maximum, minimum or zero curvature. If point $P_0$ already satisfy a bound the arc of clothoid $L_1$ is not necessary and will have zero length.
+There are some useless connections such as the repetition of two straight lines or two arcs with the same curvature which are accounted as special cases connecting directly the point to the final configuration.\\
 %
-Figure \ref{fig:possiblecombination} represents in fact a graph connecting the initial and final configuration with all the possible combination of maneuvers. The problem could be solved with a graph search algorithm. However, the number of possible path inside the graph is not high and know at priory. Thus, a naive exploration of all the possible combination is feasible.\\
+Figure \ref{fig:possiblecombination} represents a graph connecting the initial and final configuration with all the possible combinations of manoeuvres. The problem could be solved with a graph search algorithm. However, the number of possible paths inside the graph is not high and is known a priori. Thus, a naive exploration of all the possible combinations is feasible.\\
 %
 From figure \ref{fig:possiblecombination}, we can count $12$ possible $7$-arcs connections with a strange familiar resemblance to the Dubins path. In addition, $3$ are the $3$-arcs connections and $6$ are the $5$-arcs connections. The total number of possible combination is $21$ as shown in table \ref{tab:possiblecombination}.\\
 %
-However, we are neglecting the possibility that, for some configuration of initial and final point the vehicle could perform maneuvers not reaching the maximum curvature values. This, will need a separate analysis when it comes to the naive exploration.  
+However, we are neglecting the possibility that for some configurations of initial and final points, the vehicle could perform manoeuvres not reaching the maximum curvature values. This will need a separate analysis when it comes to naive exploration.  
 %
 \begin{figure}[ht]
   \centering
@@ -141,6 +139,8 @@ However, we are neglecting the possibility that, for some configuration of initi
 %
 \begin{table}[ht]
   \centering
+  \caption{Possible combination. $-$ = none,\\ $L$ = Left, $R$ = Right, $S$ = Straight}
+  \label{tab:possiblecombination}
   \begin{tabular}{c|c|c|c}
   \hline
   \textbf{\#} & \textbf{$L_2$} & \textbf{$L_4$} & \textbf{$L_6$} \\
@@ -168,39 +168,60 @@ However, we are neglecting the possibility that, for some configuration of initi
   21 & $R$ & $S$ & $-$  \\
   \hline
   \end{tabular}
-  \caption{Possible combination.\\ $L$ = Left arc, $R$ = Right arc,\\$S$ = Straight line, $-$ = none}
-  \label{tab:possiblecombination}
 \end{table}
 %
 \section*{Numeric solution}
 %
-The problem was tackled with two numerical approaches. The first writing the problem as an Optimal Control Problem (OCP) and solving it with the indirect direct method and constraints formulated as penalization with PINS (PINS Is Not a Solver)\cite{biral2016notes}. The second approach was a naive exploration of all the possible maneuver combination to solve the problem.
+The problem was tackled with two numerical approaches. The first is to write the problem as an Optimal Control Problem (OCP) and solve it with the indirect direct method and constraints formulated as penalization with PINS (PINS Is Not a Solver)\cite{biral2016notes}. The second approach was a naive exploration of all the possible manoeuvre combinations to solve the problem.
 %
 \subsection*{PINS}
 %
-The problem was developed and solved using PINS to analyze the numerical solution of the optimal control problem and to have a reference solution to compare the naive exploration of all the possible combination of maneuvers.
-\subsubsection*{Numerical Results}
-
-
-
+The problem was developed and solved using PINS to analyze the numerical solution of the optimal control problem and to have a reference solution to compare the naive exploration of all the possible combinations of manoeuvres.\\
 %
-%%%%%%%%%%%%%
-%%%%%%%%%%%%
+\begin{figure}[htb!]
+  \centering
+  \include{tikz/PINS_Traj}%
+  \caption{PINS solutions trajectory}
+  \label{fig:PINS_sol_traj}
+\end{figure}
+%
+The problem solved with PINS does not present exactly $7$ segments or at least not always. In fact, for some boundary conditions, the solution shows unexpected chatter and Fuller's problem. \cite{zhu2015planar}
+%
+\subsubsection*{Numerical Results}
+%
+\begin{figure}[htb!]
+  \centering
+  \include{tikz/PINS_Kappa.tex}%
+  \caption{PINS solutions curvature}
+  \label{fig:PINS_sol_curv}
+\end{figure}
+%
+From figure \ref{fig:PINS_sol_traj} we can see that the solution is the one expected for the trajectory. However, in figure \ref{fig:PINS_sol_curv} we can see that the curvature is not quite what we expect. In particular, there are ringing phenomena when the constraint on maximum curvature is active. 
+%
+\begin{figure}[htb!]
+  \centering
+  \include{tikz/PINS_Jerk.tex}%
+  \caption{PINS solutions jerk}
+  \label{fig:PINS_sol_jerk}
+\end{figure}
+%
+Furthermore, the jerk (Figure \ref{fig:PINS_sol_jerk}) presents chattering (Fuller's phenomenon) at the transition between manoeuvres circular arcs and straight lines.\\
+Due to this fact, we expect to find a sub-optimal solution to the problem with the proposed exploration approach.
 %
 \subsection*{Duboids MATLAB implementation and exploration}
 %
-The problem can be solved with a naive exploration of all the possible combination of maneuvers. In fact, all possible connection are a combination of the simple elementary Dubins connected by segments with linearly varying curvature also known as clothoids.\cite{bertolazzi2015g1}\\
-An analysis done by hand and the of the numerical solution using PINS suggest, that there are at most $7$ connection between two points. With $3$ arcs at constant curvature and $4$ arcs that connect all the arcs. Moreover, from figure \ref{fig:possiblecombination} and table \ref{tab:possiblecombination} we can see that there are $21$ possible combination of maneuvers.\\
-As stated before, this approach do not account for combination of maneuvers not reaching the maximum curvature values. This is a limitation of the approach that can be overcome with a more complex exploration of the possible combination. However, the achieved algorithm yields a valid suboptimal solution.
+The problem can be solved with a naive exploration of all the possible combinations of manoeuvres. All possible connections are a combination of the simple elementary Dubins connected by segments with linearly varying curvature also known as clothoids.\cite{bertolazzi2015g1}\\
+An analysis was done by hand and the numerical solution using PINS suggests, that there is at most of $7$ connection between two points. With $3$ arcs at constant curvature and $4$ arcs that connect all the arcs. Moreover, from figure \ref{fig:possiblecombination} and table \ref{tab:possiblecombination}, we can see that there are $21$ possible combinations of manoeuvres.\\
+As stated before, this approach does not account for a combination of manoeuvres not reaching the maximum curvature values. This is a limitation of the approach that can be overcome with a more complex exploration of the possible combination. However, the achieved algorithm yields a valid suboptimal solution.
 %
 \subsubsection*{Algorithm structure}
 %
-The algorithm was implemented in MATLAB. The implementation is divided in two main parts. The first part is a class that act as a collector for all the possible combination of maneuvers generated. This class will determine if a connection of a certain type is suitable/feasible for the specific initial and final point. The second part is a class for the single Duboid maneuver. Given the topology (shape) of the maneuver as in table \ref{tab:possiblecombination} the class will generate the maneuver matching if possible the boundary conditions and compute the length of the maneuver.\\
-The first class will store a list of all feasible candidate-to-be-best maneuver and select the best one according to the minimum-time/minimum length criteria.
+The algorithm was implemented in MATLAB. The implementation is divided into two main parts. The first part is a class that act as a collector for all the possible combination of manoeuvres generated. This class will determine if a connection of a certain type is suitable/feasible for the specific initial and final point. The second part is a class for the single Duboid manoeuvre. Given the topology (shape) of the manoeuvre as in table \ref{tab:possiblecombination} the class will generate the manoeuvre matching if possible the boundary conditions and compute the length of the manoeuvre.\\
+The first class will store a list of all feasible candidate-to-be-best manoeuvres and select the best one according to the minimum-time/minimum length criteria.
 %
 \subsubsection*{Arch length computation}
-The Duboids lacks of a closed form solution at this stage of the development therefore the length of the maneuver is computed with a numerical optimization using \textit{fmincon} function of MATLAB.\\
-The constraint on the final curvature is already satisfied by the definition of the problem. However, coordinate and orientation of the final point depends on the choice of the maneuver and length of segment $2$, $4$ and $6$.
+The Duboids lack a closed-form solution at this stage of the development, therefore, the length of the manoeuvre is computed with a numerical optimization using \textit{fmincon} function of MATLAB.\\
+The constraint on the final curvature is already satisfied by the definition of the problem. However, the coordinate and orientation of the final point depend on the choice of the manoeuvre and length of segment $2$, $4$ and $6$.
 In general, $P_7$ the "final" point do not coincide with $P_T$. Thus, we should compute a suitable triplet of length for the segment $L_2$, $L_4$ and $L_6$. To satisfy this constraint we can minimize a function cost such as:
 %
 \begin{equation}
@@ -214,14 +235,14 @@ In general, $P_7$ the "final" point do not coincide with $P_T$. Thus, we should 
   \end{split}
 \end{equation}
 %
-where $L_{2,max}$, $L_{4,max}$ and $L_{6,max}$ are the maximum length of the segments $L_2$, $L_4$ and $L_6$ respectively. For circular arcs the maximum length is a full circle with radius $R_{max}=1/\kappa_{max}$. For the straight line the maximum length is not trivial, however we can safely find a reasonable upper bound for our application (i.e. 10 times the distance between initial and final point).
+where $L_{2,max}$, $L_{4,max}$ and $L_{6,max}$ are the maximum length of the segments $L_2$, $L_4$ and $L_6$ respectively. For circular arcs, the maximum length is a full circle with radius $R_{max}=1/\kappa_{max}$. For the straight line, the maximum length is not trivial, however, we can safely find a reasonable upper bound for our application (i.e. 10 times the distance between the initial and final point).
 %
 \subsubsection*{Duboids results}
 %
-In this section we can see some of the results obtained with the Duboids algorithm. The results are shown in figures \ref{fig:DuboidsRes0}, \ref{fig:DuboidsRes1}, \ref{fig:DuboidsRes2}, \ref{fig:DuboidsRes3} and \ref{fig:DuboidsRes4}.\\
-The first figure (Figure \ref{fig:DuboidsRes0}) shows results obtained with initial condition set to zero for position, heading and curvature. The final condition is set to $x = 40$, $y=20$, $\theta=0$ and $\kappa=0$.\\
+In this section, we can see some of the results obtained with the Duboids algorithm. The results are shown in figures \ref{fig:DuboidsRes0}, \ref{fig:DuboidsRes1}, \ref{fig:DuboidsRes2}, \ref{fig:DuboidsRes3} and \ref{fig:DuboidsRes4}.\\
+The first figure (Figure \ref{fig:DuboidsRes0}) shows results obtained with the initial condition set to zero for the position, the heading and the curvature. The final condition is set to $x = 40$, $y=20$, $\theta=0$ and $\kappa=0$.\\
 %
-\begin{figure}[ht]
+\begin{figure}[htb!]
   \centering
   \include{tikz/Duboids0.tex}%
   \caption{Duboids solution example 1}
@@ -230,7 +251,7 @@ The first figure (Figure \ref{fig:DuboidsRes0}) shows results obtained with init
 %
 The second example is a trivial connection with a straight line (Figure \ref{fig:DuboidsRes1}).\\
 %
-\begin{figure}[ht]
+\begin{figure}[htb!]
   \centering
   \include{tikz/Duboids1.tex}%
   \caption{Duboids solution example 2}
@@ -239,7 +260,7 @@ The second example is a trivial connection with a straight line (Figure \ref{fig
 %
 The third example (Figure \ref{fig:DuboidsRes2}) shows a connection from $x=0$, $y=0$, $\theta=0$ and $\kappa=0$ to $x=-1$, $y=0$, $\theta=0$ and $\kappa=0$ obtaining a fancy shape given the constraints on curvature and jerk.\\
 %
-\begin{figure}[ht]
+\begin{figure}[htb!]
   \centering
   \include{tikz/Duboids2.tex}%
   \caption{Duboids solution example 3}
@@ -248,7 +269,7 @@ The third example (Figure \ref{fig:DuboidsRes2}) shows a connection from $x=0$, 
 %
 The fourth example (Figure \ref{fig:DuboidsRes3}) shows a connection from $x=0$, $y=0$, $\theta=0$ and $\kappa=0$ to $x=0$, $y=0$, $\theta=\pi$ and $\kappa=0$ obtaining a water drop like shape.\\
 %
-\begin{figure}[ht]
+\begin{figure}[htb!]
   \centering
   \include{tikz/Duboids3.tex}%
   \caption{Duboids solution example 4}
@@ -257,7 +278,7 @@ The fourth example (Figure \ref{fig:DuboidsRes3}) shows a connection from $x=0$,
 %
 The fifth example (Figure \ref{fig:DuboidsRes4}) shows a connection from $x=0$, $y=0$, $\theta=0$ and $\kappa=0$ to $x=0$, $y=0$, $\theta=\pi/2$ and $\kappa=0$ obtaining a convoluted form.\\
 %
-\begin{figure}[ht]
+\begin{figure}[htb!]
   \centering
   \include{tikz/Duboids4.tex}%
   \caption{Duboids solution example 5}
@@ -267,22 +288,71 @@ The fifth example (Figure \ref{fig:DuboidsRes4}) shows a connection from $x=0$, 
 
 \section*{Compare PINS and Duboids}
 
+In this section, we closely compare the results obtained with the two approaches in some specific cases.
+%
+\subsection*{Standard lane change/parallel parking}
+%
+In figure \ref{fig:Compare_traj1} we can see the trajectory obtained with the two approaches is pretty similar. However, the solution with PINS is slightly shorter than the Duboids approach. Thus PINS obtain the actual optimal solutions. On the other hand, The Duboids methods allow the manoeuvre to be stable at The boundary of the constraint as shown in figure \ref{fig:Compare_curv1}. Furthermore, the jerk on Duboids does not show any ringing or Fuller's phenomena in contrast with the PINS solution (Figure \ref{fig:Compare_jerk1}). This is a major advantage if we plan to use the trajectory for control purposes.
+%
+\begin{figure}[htb!]
+  \centering
+  \include{tikz/COMPARE_Traj_1}%
+  \caption{Trajectory analysis PINS vs Duboids}
+  \label{fig:Compare_traj1}
+\end{figure}
+%
+\begin{figure}[htb!]
+  \centering
+  \include{tikz/COMPARE_Kappa_1}%
+  \caption{Curvature analysis PINS vs Duboids}
+  \label{fig:Compare_curv1}
+\end{figure}
+%
+\begin{figure}[htb!]
+  \centering
+  \include{tikz/COMPARE_J_1}%
+  \caption{Jerk analysis PINS vs Duboids}
+  \label{fig:Compare_jerk1}
+\end{figure}
+%
+\subsection*{Around same orientation}
+%
+In figure \ref{fig:Compare_traj2} we can see the trajectory obtained with the two approaches is almost identical. However, in this case, Duboids achieved a better solution than PINS. Furthermore, by looking at figure \ref{fig:Compare_curv2} and \ref{fig:Compare_jerk2} we can see that the Duboids solution is smoother than the PINS one. As for the previous example Duboids is not affected by the ringing or Fuller's phenomena. Hence, also in this case Duboids is a better choice for control purposes.
+%
+\begin{figure}[htb!]
+  \centering
+  \include{tikz/COMPARE_Traj_2}%
+  \caption{Trajectory analysis PINS vs Duboids}
+  \label{fig:Compare_traj2}
+\end{figure}
+%
+\begin{figure}[htb!]
+  \centering
+  \include{tikz/COMPARE_Kappa_2}%
+  \caption{Curvature analysis PINS vs Duboids}
+  \label{fig:Compare_curv2}
+\end{figure}
+%
+\begin{figure}[htb!]
+  \centering
+  \include{tikz/COMPARE_J_2}%
+  \caption{Jerk analysis PINS vs Duboids}
+  \label{fig:Compare_jerk2}
+\end{figure}
+%
 \section*{Conclusions}
-
-
-
-
-
+%
+In this work, we have presented a new approach to the trajectory planning problem for autonomous vehicles suitable for constant velocity manoeuvres or parking. The approach is based on the Duboids algorithm, and it can find a feasible suboptimal solution to the trajectory planning problem. 
+%
+The new approach was compared with the solution of the numerical optimal control with PINS, and it was shown that the Duboids algorithm can find a better solution in some cases. Furthermore, the Duboids solution is smoother than the PINS one, and it is not affected by the ringing or Fuller's phenomena. Hence, the Duboids solution is a better choice for control purposes.
+%
+\section*{Future work}
+%
+In the future development of this work, we plan to extend the Duboids algorithm and find a closed-form solution or a least a semi-analytical form to compute the length of the arcs without relying on numerical integration and or/ constraint minimization. This will allow for speeding up the computation time of the Duboids algorithm making it more suitable for real-time applications.\\
+We also plan to extend the Duboids algorithm to the case of non-constant velocity manoeuvres. Furthermore, we plan to extend the algorithm to the case of multiple Duboids (a spline of Duboids).
+%
 %%%% References
 \bibliographystyle{ieeetr}
-%\bibliographystyle{plain}
-%\footnotesize
 \bibliography{Bibliography}
 %
-
-
-
-% \end{multicols}
- 
 \end{document}
-

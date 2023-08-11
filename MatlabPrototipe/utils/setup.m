@@ -6,4 +6,7 @@ function setup()
   set( groot, 'defaultAxesTickLabelInterpreter' ,'latex');
   set( groot, 'defaultLegendInterpreter'        ,'latex');
   figsize=[0,0,400,800];
+
+  addpath('Auxmain');
+  addpath('DuboidsClass');
 end
